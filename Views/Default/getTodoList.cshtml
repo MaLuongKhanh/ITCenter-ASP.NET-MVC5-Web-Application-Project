@@ -1,0 +1,136 @@
+@model IEnumerable<WebApplication.Models.Todo>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Danh sách công việc</h4>
+        <div class="add-items d-flex">
+            <input type="text" class="form-control todo-list-input" placeholder="Nhập nội dung">
+            <button class="add btn btn-primary todo-list-add-btn">Thêm</button>
+        </div>
+        <div class="list-wrapper">
+            <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
+                @foreach (var todo in Model)
+                {
+                    <li class="@(todo.IsCompleted == true ? "completed" : "")" data-id="@todo.Id">
+                        <div class="form-check form-check-primary">
+                            <label class="form-check-label">
+                                <input class="checkbox" type="checkbox" @(todo.IsCompleted == true ? "checked" : "")>
+                                @todo.Content
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                        <i class="remove mdi mdi-close-box"></i>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const todoList = document.querySelector('.todo-list');
+    const todoInput = document.querySelector('.todo-list-input');
+    const addButton = document.querySelector('.todo-list-add-btn');
+    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+    function refreshTodoList() {
+        fetch('@Url.Action("getTodoList", "Default")')
+            .then(response => response.text())
+            .then(html => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                const newTodoList = tempDiv.querySelector('.todo-list');
+                todoList.innerHTML = newTodoList.innerHTML;
+                initializeEventListeners();
+            });
+    }
+
+    function addTodo() {
+        const content = todoInput.value.trim();
+        if (!content) return;
+
+        const formData = new FormData();
+        formData.append('content', content);
+        formData.append('__RequestVerificationToken', token);
+
+        fetch('@Url.Action("AddTodo", "Default")', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                refreshTodoList();
+                todoInput.value = '';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function initializeEventListeners() {
+        document.querySelectorAll('.checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const li = this.closest('li');
+                const id = li.dataset.id;
+                const isChecked = this.checked;
+                
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('isCompleted', isChecked);
+                formData.append('__RequestVerificationToken', token);
+                
+                fetch('@Url.Action("ToggleTodo", "Default")', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        if (isChecked) {
+                            li.classList.add('completed');
+                        } else {
+                            li.classList.remove('completed');
+                        }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        document.querySelectorAll('.remove').forEach(removeBtn => {
+            removeBtn.addEventListener('click', function() {
+                const li = this.closest('li');
+                const id = li.dataset.id;
+                if (confirm('Bạn có chắc chắn muốn xóa công việc này?')) {
+                    const formData = new FormData();
+                    formData.append('id', id);
+                    formData.append('__RequestVerificationToken', token);
+
+                    fetch('@Url.Action("DeleteTodo", "Default")', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            refreshTodoList();
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+        });
+    }
+
+    addButton.addEventListener('click', addTodo);
+    todoInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addTodo();
+        }
+    });
+
+    initializeEventListeners();
+});
+</script> 

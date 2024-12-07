@@ -1,0 +1,787 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ITCenterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" />
+          <Property Name="username" Type="nvarchar" MaxLength="255" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" />
+          <Property Name="role" Type="nvarchar" MaxLength="255" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="datebegin" Type="datetime" />
+          <Property Name="PasswordResetToken" Type="nvarchar" MaxLength="255" />
+          <Property Name="TokenExpiration" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="attendance_id" />
+          </Key>
+          <Property Name="attendance_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="diemdanh" Type="nvarchar" MaxLength="255" />
+          <Property Name="ngaytruc" Type="datetime" />
+          <Property Name="catruc" Type="int" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Footer">
+          <Key>
+            <PropertyRef Name="footer_id" />
+          </Key>
+          <Property Name="footer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="contentleft" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="contentright" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="255" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="order" Type="int" />
+          <Property Name="datebegin" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Headers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="websiteName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="logo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="favicon" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HumanResource">
+          <Key>
+            <PropertyRef Name="mssv" />
+          </Key>
+          <Property Name="mssv" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="hoten" Type="nvarchar" MaxLength="255" />
+          <Property Name="avatar" Type="nvarchar" MaxLength="255" />
+          <Property Name="trangthai" Type="nvarchar" MaxLength="255" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="ngaysinh" Type="date" />
+          <Property Name="facebookURL" Type="varchar" MaxLength="255" />
+          <Property Name="githubURL" Type="varchar" MaxLength="255" />
+          <Property Name="sodienthoai" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="LandingContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HeaderTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="HeaderSubtitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="HeaderBackground" Type="nvarchar" MaxLength="200" />
+          <Property Name="BannerImage" Type="nvarchar" MaxLength="200" />
+          <Property Name="AboutTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AboutContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ServicesTitle" Type="nvarchar" MaxLength="200" />
+          <Property Name="Service1Image" Type="nvarchar" MaxLength="200" />
+          <Property Name="Service1Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="Service2Image" Type="nvarchar" MaxLength="200" />
+          <Property Name="Service2Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="Service3Image" Type="nvarchar" MaxLength="200" />
+          <Property Name="Service3Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="SpotlightTitle" Type="nvarchar" MaxLength="200" />
+          <Property Name="SpotlightSubtitle" Type="nvarchar" MaxLength="500" />
+          <Property Name="SpotlightImages" Type="nvarchar(max)" />
+          <Property Name="FeatureImage" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="menu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenmenu" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="255" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="order" Type="int" />
+          <Property Name="datebegin" Type="datetime" />
+          <Property Name="icon" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Navbar">
+          <Key>
+            <PropertyRef Name="navbar_id" />
+          </Key>
+          <Property Name="navbar_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenbutton" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="255" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="order" Type="int" />
+          <Property Name="datebegin" Type="datetime" />
+          <Property Name="icon" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="news_id" />
+          </Key>
+          <Property Name="news_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ten" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="thumbnail" Type="nvarchar" MaxLength="255" />
+          <Property Name="link" Type="nvarchar" MaxLength="255" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="order" Type="int" />
+          <Property Name="datebegin" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="schedule_id" />
+          </Key>
+          <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+          <Property Name="ngaytrongtuan" Type="int" />
+          <Property Name="catruc" Type="int" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="ngaydangki" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ScheduleDetail">
+          <Key>
+            <PropertyRef Name="scheduledetail_id" />
+          </Key>
+          <Property Name="scheduledetail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catruc" Type="int" />
+          <Property Name="giobatdau" Type="time" Precision="7" />
+          <Property Name="gioketthuc" Type="time" Precision="7" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="order" Type="int" />
+        </EntityType>
+        <EntityType Name="SoftwareStorage">
+          <Key>
+            <PropertyRef Name="software_id" />
+          </Key>
+          <Property Name="software_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ten" Type="nvarchar" MaxLength="255" />
+          <Property Name="mota" Type="nvarchar" MaxLength="255" />
+          <Property Name="link" Type="nvarchar" MaxLength="255" />
+          <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+          <Property Name="ngaydang" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SupportHistory">
+          <Key>
+            <PropertyRef Name="support_id" />
+          </Key>
+          <Property Name="support_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hoten" Type="nvarchar" MaxLength="255" />
+          <Property Name="maKH" Type="nvarchar" MaxLength="255" />
+          <Property Name="tenmay" Type="nvarchar" MaxLength="255" />
+          <Property Name="loaihotro" Type="nvarchar" MaxLength="255" />
+          <Property Name="ngaygui" Type="datetime" />
+          <Property Name="trangthai" Type="nvarchar" MaxLength="255" />
+          <Property Name="meta" Type="nvarchar(max)" />
+          <Property Name="hide" Type="bit" />
+          <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+          <Property Name="sdt" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Todo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsCompleted" Type="bit" />
+          <Property Name="MSSV" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatAt" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Attendance_HumanResource">
+          <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_HumanResource">
+          <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SoftwareStorage_HumanResource">
+          <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+          <End Role="SoftwareStorage" Type="Self.SoftwareStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="SoftwareStorage">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportHistory_HumanResource">
+          <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+          <End Role="SupportHistory" Type="Self.SupportHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="SupportHistory">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ITCenterModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Footer" EntityType="Self.Footer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Headers" EntityType="Self.Headers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HumanResource" EntityType="Self.HumanResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandingContent" EntityType="Self.LandingContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Navbar" EntityType="Self.Navbar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleDetail" EntityType="Self.ScheduleDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SoftwareStorage" EntityType="Self.SoftwareStorage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportHistory" EntityType="Self.SupportHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Todo" EntityType="Self.Todo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Attendance_HumanResource" Association="Self.FK_Attendance_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResource" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_HumanResource" Association="Self.FK_Schedule_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResource" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SoftwareStorage_HumanResource" Association="Self.FK_SoftwareStorage_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResource" />
+            <End Role="SoftwareStorage" EntitySet="SoftwareStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportHistory_HumanResource" Association="Self.FK_SupportHistory_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResource" />
+            <End Role="SupportHistory" EntitySet="SupportHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ITCenterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ITCenterEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="ITCenterModel.Attendance" />
+          <EntitySet Name="Footers" EntityType="ITCenterModel.Footer" />
+          <EntitySet Name="HumanResources" EntityType="ITCenterModel.HumanResource" />
+          <EntitySet Name="Menus" EntityType="ITCenterModel.Menu" />
+          <EntitySet Name="Navbars" EntityType="ITCenterModel.Navbar" />
+          <EntitySet Name="News" EntityType="ITCenterModel.News" />
+          <EntitySet Name="Schedules" EntityType="ITCenterModel.Schedule" />
+          <EntitySet Name="ScheduleDetails" EntityType="ITCenterModel.ScheduleDetail" />
+          <EntitySet Name="SoftwareStorages" EntityType="ITCenterModel.SoftwareStorage" />
+          <AssociationSet Name="FK_Attendance_HumanResource" Association="ITCenterModel.FK_Attendance_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResources" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_HumanResource" Association="ITCenterModel.FK_Schedule_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResources" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SoftwareStorage_HumanResource" Association="ITCenterModel.FK_SoftwareStorage_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResources" />
+            <End Role="SoftwareStorage" EntitySet="SoftwareStorages" />
+          </AssociationSet>
+          <EntitySet Name="Accounts" EntityType="ITCenterModel.Account" />
+          <EntitySet Name="SupportHistories" EntityType="ITCenterModel.SupportHistory" />
+          <AssociationSet Name="FK_SupportHistory_HumanResource" Association="ITCenterModel.FK_SupportHistory_HumanResource">
+            <End Role="HumanResource" EntitySet="HumanResources" />
+            <End Role="SupportHistory" EntitySet="SupportHistories" />
+          </AssociationSet>
+          <EntitySet Name="Todoes" EntityType="ITCenterModel.Todo" />
+          <EntitySet Name="LandingContents" EntityType="ITCenterModel.LandingContent" />
+          <EntitySet Name="Headers" EntityType="ITCenterModel.Header" />
+        </EntityContainer>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="attendance_id" />
+          </Key>
+          <Property Name="attendance_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="diemdanh" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ngaytruc" Type="DateTime" Precision="3" />
+          <Property Name="catruc" Type="Int32" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_Attendance_HumanResource" FromRole="Attendance" ToRole="HumanResource" />
+        </EntityType>
+        <EntityType Name="Footer">
+          <Key>
+            <PropertyRef Name="footer_id" />
+          </Key>
+          <Property Name="footer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="contentleft" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="contentright" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="HumanResource">
+          <Key>
+            <PropertyRef Name="mssv" />
+          </Key>
+          <Property Name="mssv" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="hoten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="avatar" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="trangthai" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="ngaysinh" Type="DateTime" Precision="0" />
+          <Property Name="facebookURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="githubURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="sodienthoai" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Attendances" Relationship="ITCenterModel.FK_Attendance_HumanResource" FromRole="HumanResource" ToRole="Attendance" />
+          <NavigationProperty Name="Schedules" Relationship="ITCenterModel.FK_Schedule_HumanResource" FromRole="HumanResource" ToRole="Schedule" />
+          <NavigationProperty Name="SoftwareStorages" Relationship="ITCenterModel.FK_SoftwareStorage_HumanResource" FromRole="HumanResource" ToRole="SoftwareStorage" />
+          <NavigationProperty Name="SupportHistories" Relationship="ITCenterModel.FK_SupportHistory_HumanResource" FromRole="HumanResource" ToRole="SupportHistory" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="menu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenmenu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="3" />
+          <Property Name="icon" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Navbar">
+          <Key>
+            <PropertyRef Name="navbar_id" />
+          </Key>
+          <Property Name="navbar_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenbutton" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Precision="3" />
+          <Property Name="icon" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="news_id" />
+          </Key>
+          <Property Name="news_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ten" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thumbnail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+          <Property Name="datebegin" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="schedule_id" />
+          </Key>
+          <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ngaytrongtuan" Type="Int32" />
+          <Property Name="catruc" Type="Int32" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="ngaydangki" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_Schedule_HumanResource" FromRole="Schedule" ToRole="HumanResource" />
+        </EntityType>
+        <EntityType Name="ScheduleDetail">
+          <Key>
+            <PropertyRef Name="scheduledetail_id" />
+          </Key>
+          <Property Name="scheduledetail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catruc" Type="Int32" />
+          <Property Name="giobatdau" Type="Time" Precision="7" />
+          <Property Name="gioketthuc" Type="Time" Precision="7" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="order" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SoftwareStorage">
+          <Key>
+            <PropertyRef Name="software_id" />
+          </Key>
+          <Property Name="software_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="mota" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ngaydang" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_SoftwareStorage_HumanResource" FromRole="SoftwareStorage" ToRole="HumanResource" />
+        </EntityType>
+        <Association Name="FK_Attendance_HumanResource">
+          <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+          <End Type="ITCenterModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_HumanResource">
+          <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+          <End Type="ITCenterModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SoftwareStorage_HumanResource">
+          <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+          <End Type="ITCenterModel.SoftwareStorage" Role="SoftwareStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="SoftwareStorage">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="datebegin" Type="DateTime" Precision="3" />
+          <Property Name="PasswordResetToken" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TokenExpiration" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SupportHistory">
+          <Key>
+            <PropertyRef Name="support_id" />
+          </Key>
+          <Property Name="support_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hoten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="maKH" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="tenmay" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="loaihotro" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ngaygui" Type="DateTime" Precision="3" />
+          <Property Name="trangthai" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hide" Type="Boolean" />
+          <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="sdt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_SupportHistory_HumanResource" FromRole="SupportHistory" ToRole="HumanResource" />
+        </EntityType>
+        <Association Name="FK_SupportHistory_HumanResource">
+          <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+          <End Type="ITCenterModel.SupportHistory" Role="SupportHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HumanResource">
+              <PropertyRef Name="mssv" />
+            </Principal>
+            <Dependent Role="SupportHistory">
+              <PropertyRef Name="mssv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Todo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsCompleted" Type="Boolean" />
+          <Property Name="MSSV" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatAt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="LandingContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HeaderTitle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="HeaderSubtitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HeaderBackground" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BannerImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AboutTitle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AboutContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServicesTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Service1Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Service1Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Service2Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Service2Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Service3Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Service3Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SpotlightTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SpotlightSubtitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SpotlightImages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FeatureImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Header">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="websiteName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="logo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="favicon" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ITCenterModelStoreContainer" CdmEntityContainer="ITCenterEntities1">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="ITCenterModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="catruc" ColumnName="catruc" />
+                <ScalarProperty Name="ngaytruc" ColumnName="ngaytruc" />
+                <ScalarProperty Name="diemdanh" ColumnName="diemdanh" />
+                <ScalarProperty Name="attendance_id" ColumnName="attendance_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Footers">
+            <EntityTypeMapping TypeName="ITCenterModel.Footer">
+              <MappingFragment StoreEntitySet="Footer">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="contentright" ColumnName="contentright" />
+                <ScalarProperty Name="contentleft" ColumnName="contentleft" />
+                <ScalarProperty Name="footer_id" ColumnName="footer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HumanResources">
+            <EntityTypeMapping TypeName="ITCenterModel.HumanResource">
+              <MappingFragment StoreEntitySet="HumanResource">
+                <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+                <ScalarProperty Name="githubURL" ColumnName="githubURL" />
+                <ScalarProperty Name="facebookURL" ColumnName="facebookURL" />
+                <ScalarProperty Name="ngaysinh" ColumnName="ngaysinh" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="hoten" ColumnName="hoten" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="ITCenterModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="tenmenu" ColumnName="tenmenu" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Navbars">
+            <EntityTypeMapping TypeName="ITCenterModel.Navbar">
+              <MappingFragment StoreEntitySet="Navbar">
+                <ScalarProperty Name="icon" ColumnName="icon" />
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="tenbutton" ColumnName="tenbutton" />
+                <ScalarProperty Name="navbar_id" ColumnName="navbar_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="ITCenterModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="ten" ColumnName="ten" />
+                <ScalarProperty Name="news_id" ColumnName="news_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="ITCenterModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="ngaydangki" ColumnName="ngaydangki" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="catruc" ColumnName="catruc" />
+                <ScalarProperty Name="ngaytrongtuan" ColumnName="ngaytrongtuan" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleDetails">
+            <EntityTypeMapping TypeName="ITCenterModel.ScheduleDetail">
+              <MappingFragment StoreEntitySet="ScheduleDetail">
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="gioketthuc" ColumnName="gioketthuc" />
+                <ScalarProperty Name="giobatdau" ColumnName="giobatdau" />
+                <ScalarProperty Name="catruc" ColumnName="catruc" />
+                <ScalarProperty Name="scheduledetail_id" ColumnName="scheduledetail_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SoftwareStorages">
+            <EntityTypeMapping TypeName="ITCenterModel.SoftwareStorage">
+              <MappingFragment StoreEntitySet="SoftwareStorage">
+                <ScalarProperty Name="ngaydang" ColumnName="ngaydang" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="mota" ColumnName="mota" />
+                <ScalarProperty Name="ten" ColumnName="ten" />
+                <ScalarProperty Name="software_id" ColumnName="software_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="ITCenterModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="TokenExpiration" ColumnName="TokenExpiration" />
+                <ScalarProperty Name="PasswordResetToken" ColumnName="PasswordResetToken" />
+                <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportHistories">
+            <EntityTypeMapping TypeName="ITCenterModel.SupportHistory">
+              <MappingFragment StoreEntitySet="SupportHistory">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="hide" ColumnName="hide" />
+                <ScalarProperty Name="meta" ColumnName="meta" />
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="ngaygui" ColumnName="ngaygui" />
+                <ScalarProperty Name="loaihotro" ColumnName="loaihotro" />
+                <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+                <ScalarProperty Name="maKH" ColumnName="maKH" />
+                <ScalarProperty Name="hoten" ColumnName="hoten" />
+                <ScalarProperty Name="support_id" ColumnName="support_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Todoes">
+            <EntityTypeMapping TypeName="ITCenterModel.Todo">
+              <MappingFragment StoreEntitySet="Todo">
+                <ScalarProperty Name="CreatAt" ColumnName="CreatAt" />
+                <ScalarProperty Name="MSSV" ColumnName="MSSV" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LandingContents">
+            <EntityTypeMapping TypeName="ITCenterModel.LandingContent">
+              <MappingFragment StoreEntitySet="LandingContent">
+                <ScalarProperty Name="FeatureImage" ColumnName="FeatureImage" />
+                <ScalarProperty Name="SpotlightImages" ColumnName="SpotlightImages" />
+                <ScalarProperty Name="SpotlightSubtitle" ColumnName="SpotlightSubtitle" />
+                <ScalarProperty Name="SpotlightTitle" ColumnName="SpotlightTitle" />
+                <ScalarProperty Name="Service3Title" ColumnName="Service3Title" />
+                <ScalarProperty Name="Service3Image" ColumnName="Service3Image" />
+                <ScalarProperty Name="Service2Title" ColumnName="Service2Title" />
+                <ScalarProperty Name="Service2Image" ColumnName="Service2Image" />
+                <ScalarProperty Name="Service1Title" ColumnName="Service1Title" />
+                <ScalarProperty Name="Service1Image" ColumnName="Service1Image" />
+                <ScalarProperty Name="ServicesTitle" ColumnName="ServicesTitle" />
+                <ScalarProperty Name="AboutContent" ColumnName="AboutContent" />
+                <ScalarProperty Name="AboutTitle" ColumnName="AboutTitle" />
+                <ScalarProperty Name="BannerImage" ColumnName="BannerImage" />
+                <ScalarProperty Name="HeaderBackground" ColumnName="HeaderBackground" />
+                <ScalarProperty Name="HeaderSubtitle" ColumnName="HeaderSubtitle" />
+                <ScalarProperty Name="HeaderTitle" ColumnName="HeaderTitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Headers">
+            <EntityTypeMapping TypeName="ITCenterModel.Header">
+              <MappingFragment StoreEntitySet="Headers">
+                <ScalarProperty Name="favicon" ColumnName="favicon" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="websiteName" ColumnName="websiteName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

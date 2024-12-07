@@ -1,0 +1,9 @@
+﻿@model List<WebApplication.Models.KTVAchievementViewModel>
+@foreach (var row in Model)
+{
+    <tr>
+        <td>@row.Hoten</td>
+        <td>@row.Mssv</td>
+        <td>@row.TotalCount</td>
+    </tr>
+}

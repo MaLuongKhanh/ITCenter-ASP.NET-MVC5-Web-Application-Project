@@ -1,0 +1,81 @@
+@model WebApplication.Models.Header
+
+@{
+    ViewBag.Title = "Quản lý Header";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Quản lý Header</h4>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            @using (Html.BeginForm("Edit", "Header", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.id)
+
+                <div class="form-group">
+                    <label>Tên Website</label>
+                    @Html.EditorFor(m => m.websiteName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    <label>Logo</label>
+                    <input type="file" name="logoFile" class="file-upload-default" accept="image/*">
+                    <div class="input-group col-xs-12">
+                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Logo">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">Chọn</button>
+                        </span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.logo))
+                    {
+                        <img src="~/Areas/admin/Content/images/@Model.logo" class="mt-2" style="max-width:200px;" />
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label>Favicon</label>
+                    <input type="file" name="faviconFile" class="file-upload-default" accept="image/*">
+                    <div class="input-group col-xs-12">
+                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Favicon">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">Chọn</button>
+                        </span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.favicon))
+                    {
+                        <img src="~/Areas/admin/Content/images/@Model.favicon" class="mt-2" style="max-width:50px;" />
+                    }
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2">Lưu thay đổi</button>
+                <a href="@Url.Action("Index")" class="btn btn-light">Hủy</a>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Areas/admin/Content/js/file-upload.js"></script>
+    <script>
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(function () {
+            $('.alert').fadeOut('slow');
+        }, 3000);
+    </script>
+} 

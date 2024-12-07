@@ -1,0 +1,186 @@
+﻿@model IEnumerable<WebApplication.Models.News>
+@{
+    var itemsPerPage = 5;
+}
+
+<style>
+    .news-item {
+        padding: 1rem;
+        border-bottom: 1px solid #2c2e33;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .news-item:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(5px);
+        }
+
+    .preview-thumbnail {
+        margin-right: 1rem;
+    }
+
+        .preview-thumbnail img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+    .preview-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+    }
+
+    .preview-subject {
+        color: #ffffff;
+        font-size: 0.875rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+
+    .modal-content {
+        background-color: #191c24;
+        color: #fff;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #2c2e33;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #2c2e33;
+    }
+</style>
+
+<h4 class="card-title">Tin tức mới nhất</h4>
+<div id="newsList" class="preview-list">
+    @foreach (var news in Model.Take(itemsPerPage))
+    {
+        var encodedContent = HttpUtility.JavaScriptStringEncode(news.content);
+        var encodedTitle = HttpUtility.JavaScriptStringEncode(news.ten);
+
+        <div class="preview-item news-item"
+             onclick="showNewsDetail(@news.news_id, '@encodedTitle', '@encodedContent', '@news.datebegin.ToString("dd/MM/yyyy")')">
+            <div class="preview-thumbnail">
+                @if (!string.IsNullOrEmpty(news.thumbnail))
+                {
+                    <img src="/Areas/admin/Content/upload/img/news/@news.thumbnail" alt="@news.ten" />
+                }
+                else
+                {
+                    <div class="preview-icon bg-info">
+                        <i class="mdi mdi-file-document"></i>
+                    </div>
+                }
+            </div>
+            <div class="preview-item-content">
+                <h6 class="preview-subject">@news.ten</h6>
+                <p class="text-muted mb-0">@news.datebegin.ToString("dd/MM/yyyy")</p>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-center mt-3">
+    <button class="btn btn-outline-info btn-sm mr-2" onclick="loadNewsPage(currentPage-1)" id="prevBtn">
+        <i class="mdi mdi-chevron-left"></i>
+    </button>
+    <span class="align-self-center mx-2" id="pageInfo"></span>
+    <button class="btn btn-outline-info btn-sm ml-2" onclick="loadNewsPage(currentPage+1)" id="nextBtn">
+        <i class="mdi mdi-chevron-right"></i>
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newsModal" tabindex="-1" role="dialog" aria-labelledby="newsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newsModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="newsModalContent"></div>
+                <div class="text-muted mt-2">
+                    <small id="newsModalDate"></small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showNewsDetail(id, title, content, date) {
+        // Lấy tham chiếu đến modal
+        const modal = document.getElementById('newsModal');
+
+        // Cập nhật nội dung modal
+        document.getElementById('newsModalLabel').textContent = title;
+        document.getElementById('newsModalContent').innerHTML = content;
+        document.getElementById('newsModalDate').textContent = `Ngày đăng: ${date}`;
+
+        // Hiển thị modal bằng Bootstrap
+        const bootstrapModal = new bootstrap.Modal(modal);
+        bootstrapModal.show();
+    }
+
+    // Thêm event listener cho nút đóng
+    document.querySelector('.modal .close').addEventListener('click', function() {
+        const modal = document.getElementById('newsModal');
+        const bootstrapModal = bootstrap.Modal.getInstance(modal);
+        if (bootstrapModal) {
+            bootstrapModal.hide();
+        }
+    });
+
+    let currentPage = 1;
+    const itemsPerPage = @itemsPerPage;
+
+    function loadNewsPage(page) {
+        if (page < 1) return;
+
+        fetch(`/Default/GetNewsPaged?page=${page}&pageSize=${itemsPerPage}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('newsList').innerHTML = data.html;
+
+                    currentPage = data.currentPage;
+                    updatePaginationButtons(data.totalPages);
+                    updatePageInfo(data.currentPage, data.totalPages);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updatePaginationButtons(totalPages) {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+
+        prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+        nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
+    }
+
+    function updatePageInfo(currentPage, totalPages) {
+        document.getElementById('pageInfo').textContent = `${currentPage}/${totalPages}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadNewsPage(1);
+    });
+</script>

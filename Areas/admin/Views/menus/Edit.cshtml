@@ -1,0 +1,262 @@
+﻿@model WebApplication.Models.Menu
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+@section _Header {
+    <style>
+        .card {
+            background: #191c24;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+
+        .card-title {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            background-color: #2A3038;
+            border-color: #2c2e33;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            background-color: #2A3038;
+            border-color: #010057;
+            color: #ffffff;
+            box-shadow: 0 0 0 0.2rem rgba(1, 0, 87, 0.25);
+        }
+
+        .control-label {
+            color: #ffffff;
+        }
+
+        .text-danger {
+            color: #fc424a !important;
+        }
+
+        .btn-primary {
+            background-color: #010057;
+            border-color: #010057;
+        }
+
+        .btn-primary:hover {
+            background-color: #000033;
+            border-color: #000033;
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            border-color: #2c2e33;
+        }
+
+        .btn-secondary:hover {
+            background-color: ##495057;
+            border-color: #2c2e33;
+        }
+
+        .dl-horizontal dt {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .dl-horizontal dd {
+            color: #6c7293;
+            margin-bottom: 1rem;
+        }
+        a {
+            color: #010057;
+        }
+
+        a:hover {
+            color: #000033;
+            text-decoration: none;
+        }
+
+        .icon-item {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #2c2e33;
+            border-radius: 4px;
+        }
+
+        .icon-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .icon-item i {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .icon-item span {
+            font-size: 12px;
+            color: #6c7293;
+        }
+    </style>
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Chỉnh sửa Menu</h4>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.menu_id)
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tenmenu, "Tên menu", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.tenmenu, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.tenmenu, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.link, "Link", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.link, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.link, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.meta, "Meta", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.meta, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.meta, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.hide, "Ẩn", new { @class = "control-label" })
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.hide)
+                        @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.order, "Thứ tự", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.order, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.order, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.icon, "Icon", new { @class = "control-label" })
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.icon, new { htmlAttributes = new { @class = "form-control", @id = "iconInput" } })
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#iconModal">
+                                <i class="mdi mdi-format-list-bulleted"></i> Chọn Icon
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <i id="iconPreview" class="@Model?.icon" style="font-size: 24px;"></i>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.icon, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary mr-2">Lưu thay đổi</button>
+                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Icon Modal -->
+<div class="modal fade" id="iconModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chọn Icon</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <input type="text" class="form-control" id="iconSearch" placeholder="Tìm kiếm icon...">
+                    </div>
+                </div>
+                <div class="row" id="iconList">
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-speedometer">
+                            <i class="mdi mdi-speedometer"></i>
+                            <span>speedometer</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-account-search">
+                            <i class="mdi mdi-account-search"></i>
+                            <span>account-search</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-table-large">
+                            <i class="mdi mdi-table-large"></i>
+                            <span>table-large</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-timetable">
+                            <i class="mdi mdi-timetable"></i>
+                            <span>timetable</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-laptop">
+                            <i class="mdi mdi-laptop"></i>
+                            <span>laptop</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-file-multiple">
+                            <i class="mdi mdi-file-multiple"></i>
+                            <span>file-multiple</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-rocket">
+                            <i class="mdi mdi-rocket"></i>
+                            <span>rocket</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="icon-item" data-icon="mdi mdi-alert-circle-outline">
+                            <i class="mdi mdi-alert-circle-outline"></i>
+                            <span>alert-circle-outline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+    document.querySelectorAll('.icon-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const iconClass = this.dataset.icon;
+            document.getElementById('iconInput').value = iconClass;
+            document.getElementById('iconPreview').className = iconClass;
+            $('#iconModal').modal('hide');
+        });
+    });
+
+    document.getElementById('iconSearch').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('.icon-item').forEach(item => {
+            const iconName = item.dataset.icon.toLowerCase();
+            item.style.display = iconName.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+    </script>
+}

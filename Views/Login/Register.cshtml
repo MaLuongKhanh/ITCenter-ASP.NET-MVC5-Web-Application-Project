@@ -1,0 +1,74 @@
+﻿@model WebApplication.Models.Account
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<div class="card col-lg-4 mx-auto">
+    <div class="card-body px-5 py-5">
+        <h3 class="card-title text-left mb-3">Đăng ký</h3>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            if (!ViewData.ModelState.IsValid)
+            {
+                <div id="errorAlert" class="alert alert-danger">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                </div>
+            }
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.mssv, "MSSV", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.mssv, new { htmlAttributes = new { @class = "form-control p_input" } })
+                    @Html.ValidationMessageFor(model => model.mssv, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.email, "Email", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control p_input", type = "email" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.username, "Tên đăng nhập", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control p_input" } })
+                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.password, "Mật khẩu", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control p_input", type = "password" } })
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                </div>
+
+                <br>
+                <div class="text-center">
+                    <button id="submitBtn" type="submit" class="btn btn-primary btn-block enter-btn">Đăng ký tài khoản</button>
+                </div>
+            </div>
+        }
+
+        <p class="sign-up text-center">Đã có tài khoản?<a href="/dang-nhap"> Đăng nhập</a></p>
+        <p class="terms">Bằng cách tạo tài khoản, bạn đồng ý với <a href="#"> Điều khoản & Điều kiện </a> của chúng tôi. </p>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    function disableButton() {
+      // Lấy nút bằng ID
+      var button = document.getElementById("submitBtn");
+      // Vô hiệu hóa nút
+      button.disabled = true;
+      // Nếu cần, có thể thay đổi văn bản nút
+      button.innerHTML = "Đang xử lý...";
+      // Gửi form hoặc thực hiện hành động khác
+      // document.forms[0].submit(); // Nếu bạn đang gửi một form
+    }
+</script>

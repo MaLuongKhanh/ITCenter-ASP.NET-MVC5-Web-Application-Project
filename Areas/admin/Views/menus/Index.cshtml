@@ -1,0 +1,193 @@
+﻿@model IEnumerable<WebApplication.Models.Menu>
+@{
+    ViewBag.Title = "Quản lý Menu";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+@section _Header {
+    <style>
+        .card {
+            background: #191c24;
+            border: none;
+            border-radius: 0.5rem;
+        }
+
+        .card-title {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .table {
+            color: #ffffff;
+        }
+
+        .table thead th {
+            color: #ffffff;
+            border-bottom: 1px solid #2c2e33;
+            font-weight: 600;
+            background-color: #000033;
+        }
+
+        .table td {
+            border-top: 1px solid #2c2e33;
+            vertical-align: middle;
+            color: #dfe3ea;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .table-striped tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #010057;
+            border-color: #010057;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #000033;
+            border-color: #000033;
+        }
+
+        .action-links a {
+            color: #8f95b2;
+            margin: 0 8px;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .action-links a:hover {
+            color: #ffffff;
+        }
+
+        .create-new {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content {
+            background: #191c24;
+            color: #ffffff;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #2c2e33;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #2c2e33;
+        }
+
+        .close {
+            color: #ffffff;
+        }
+
+        .close:hover {
+            color: #6c7293;
+        }
+    </style>
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Quản lý Menu</h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên menu</th>
+                            <th>Meta</th>
+                            <th>Hiển thị</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.menu_id</td>
+                                <td>@item.tenmenu</td>
+                                <td>@item.meta</td>
+                                <td>@item.hide</td>
+                                <td class="action-links">
+                                    <a href="@Url.Action("Edit", new { id = item.menu_id })" title="Sửa">
+                                        <i class="mdi mdi-pencil"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.menu_id })" title="Chi tiết">
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
+                                    <a href="#" onclick="showDeleteModal('@item.menu_id', '@item.tenmenu', '@item.datebegin')" title="Xóa">
+                                        <i class="mdi mdi-delete"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa Menu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    Bạn có chắc chắn muốn xóa menu này?
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Tên menu</dt>
+                    <dd id="menuName"></dd>
+                    <dt>Ngày cập nhật cuối</dt>
+                    <dd id="menuDate"></dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let menuIdToDelete = null;
+
+        function showDeleteModal(id, name, date) {
+            menuIdToDelete = id;
+            $('#menuName').text(name);
+            $('#menuDate').text(date);
+            $('#deleteModal').modal('show');
+        }
+
+        $('#confirmDelete').click(function() {
+            if (menuIdToDelete) {
+                $.post('@Url.Action("Delete")', { id: menuIdToDelete }, function(result) {
+                    if (result.success) {
+                        $('#deleteModal').modal('hide');
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+}

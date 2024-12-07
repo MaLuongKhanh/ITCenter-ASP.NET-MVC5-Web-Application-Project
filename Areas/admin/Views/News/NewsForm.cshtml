@@ -1,0 +1,156 @@
+@model WebApplication.Models.News
+
+<div class="card-body position-relative">
+    <div id="notification" class="alert d-none" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+        <span id="notificationMessage"></span>
+    </div>
+
+    <h4 class="card-title mb-4" id="formTitle">@(Model?.news_id > 0 ? "Chỉnh sửa tin tức" : "Thêm tin tức mới")</h4>
+    @using (Html.BeginForm("SaveNews", "News", FormMethod.Post, new { id = "newsForm", enctype = "multipart/form-data", onsubmit = "return handleSubmit(event)" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.news_id)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ten, "Tiêu đề")
+            @Html.TextBoxFor(m => m.ten, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ten)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.thumbnail, "Ảnh đại diện")
+            <div class="input-group">
+                <input type="file" name="thumbnailFile" id="thumbnailFile" class="file-upload-default" accept="image/*" />
+                @Html.TextBoxFor(m => m.thumbnail, new { @class = "form-control file-upload-info", @readonly = "readonly" })
+                <span class="input-group-append">
+                    <button class="file-upload-browse btn btn-primary" type="button">Chọn ảnh</button>
+                </span>
+            </div>
+            @if (!string.IsNullOrEmpty(Model?.thumbnail))
+            {
+                <div class="mt-2">
+                    <img src="~/Areas/admin/Content/upload/img/news/@Model.thumbnail" alt="Thumbnail" class="thumbnail-preview" style="max-width: 200px;" />
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.content, "Nội dung")
+            @Html.TextAreaFor(m => m.content, new { @class = "form-control", @id = "editor" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.hide, "Hiển thị")
+            <div class="checkbox">
+                @Html.EditorFor(m => m.hide)
+                @Html.ValidationMessageFor(m => m.hide)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.order, "Thứ tự")
+            @Html.TextBoxFor(m => m.order, new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-success mr-2">Lưu</button>
+        if (Model != null && Model.news_id > 0)
+        {
+            <button type="button" class="btn btn-danger" 
+                    onclick="showDeleteModal(@Model.news_id, '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.ten))', '@Model.datebegin.ToString("dd/MM/yyyy")')">
+                Xóa
+            </button>
+        }
+        <button type="button" class="btn btn-secondary" onclick="createNewPost()">Làm mới</button>
+    }
+</div>
+
+<script>
+    // Khởi tạo CKEditor cho form hiện tại
+    var editor = CKEDITOR.replace("editor", { 
+        height: '400px',
+        customConfig: '/Areas/admin/Content/ckeditor/config.js'
+    });
+
+    // Xử lý file upload
+    const fileUpload = document.getElementById('thumbnailFile');
+    const fileInfo = document.querySelector('.file-upload-info');
+    const browseButton = document.querySelector('.file-upload-browse');
+
+    browseButton.addEventListener('click', function() {
+        fileUpload.click();
+    });
+
+    fileUpload.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            fileInfo.value = file.name;
+            
+            if (document.querySelector('.thumbnail-preview')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.thumbnail-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+
+    // Thêm hàm hiển thị thông báo
+    function showNotification(message, isSuccess = true) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notificationMessage');
+        
+        notification.className = `alert ${isSuccess ? 'alert-success' : 'alert-danger'} d-block`;
+        notificationMessage.textContent = message;
+        
+        setTimeout(() => {
+            notification.className = 'alert d-none';
+        }, 3000);
+    }
+
+    // Sửa lại hàm handleSubmit
+    function handleSubmit(e) {
+        e.preventDefault();
+        
+        // Cập nhật giá trị từ CKEditor vào TextArea
+        editor.updateElement();
+
+        var formData = new FormData(e.target);
+        formData.append('content', editor.getData());
+
+        fetch('/admin/News/SaveNews', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error('Server Response:', text);
+                    throw new Error('Network response was not ok');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message);
+                loadPage(currentPage); // Refresh danh sách
+            } else {
+                console.error('Validation Errors:', data.errors);
+                let errorMessage = 'Lỗi: ';
+                if (data.errors) {
+                    errorMessage += Object.values(data.errors).join(', ');
+                } else {
+                    errorMessage += data.message || 'Có lỗi xảy ra khi lưu tin tức';
+                }
+                showNotification(errorMessage, false);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Có lỗi xảy ra khi lưu tin tức: ' + error.message, false);
+        });
+
+        return false;
+    }
+</script> 

@@ -1,0 +1,653 @@
+﻿@model WebApplication.Models.LandingContent
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+      Document Title
+      =============================================
+      -->
+    <title>IT-Center | Trung tâm hỗ trợ kỹ thuật</title>
+    <!--
+      Favicons
+      =============================================
+      -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Content/landingPage/images/ITCenterLogoMini.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/Content/landingPage/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--
+      Stylesheets
+      =============================================
+
+      -->
+    <!-- Default stylesheets-->
+    <link href="/Content/landingPage/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Template specific stylesheets-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Volkhov:400i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="/Content/landingPage/lib/animate.css/animate.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/et-line-font/et-line-font.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/flexslider/flexslider.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/owl.carousel/dist/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/owl.carousel/dist/assets/owl.theme.default.min.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
+    <link href="/Content/landingPage/lib/simple-text-rotator/simpletextrotator.css" rel="stylesheet">
+    <!-- Main stylesheet and color file-->
+    <link href="/Content/landingPage/css/style.css" rel="stylesheet">
+    <link id="color-scheme" href="/Content/landingPage/css/colors/default.css" rel="stylesheet">
+    <style>
+        .footer {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 14px;
+        }
+
+            .footer .container {
+                display: flex;
+                justify-content: space-between;
+                /* Giữ nguyên bố cục này cho màn hình lớn */
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .footer .copyright {
+                margin: 0;
+            }
+
+            .footer .footer-social-links {
+                display: flex;
+                gap: 10px;
+            }
+
+            /* Căn chỉnh icon ở bên phải trên màn hình lớn */
+            .footer .footer-social-links {
+                justify-content: flex-end;
+                /* Căn phải cho màn hình lớn */
+            }
+
+                .footer .footer-social-links a {
+                    color: #fff;
+                    text-decoration: none;
+                    margin: 0 10px;
+                }
+
+                    .footer .footer-social-links a:hover {
+                        color: #ddd;
+                    }
+
+        /* Responsive cho màn hình nhỏ */
+        @@media (max-width: 576px) {
+            .footer .container {
+                flex-direction: column;
+                /* Căn giữa nội dung trong container */
+                align-items: center;
+                /* Căn giữa các mục */
+            }
+
+            .footer .copyright {
+                margin-bottom: 10px;
+            }
+
+            .footer .footer-social-links {
+                justify-content: center;
+                /* Căn giữa các icon trên màn hình nhỏ */
+                margin-top: 10px;
+            }
+        }
+
+        /* Form control styling */
+        .form-group .form-control {
+            width: 100%;
+            /* Aligns text inside inputs to the left */
+        }
+
+        /* Box styling within #services section */
+        #services .box {
+            padding: 20px;
+            border: 1px solid #ddd;
+            /* Optional: Add a border to each box */
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            /* Smooth scale-up on hover */
+            margin-bottom: 20px;
+            /* Space between rows of boxes */
+        }
+
+            /* Standardize image sizes within each box */
+            #services .box img {
+                width: 100%;
+                height: 250px;
+                /* Set a uniform height */
+                object-fit: cover;
+                /* Keeps the aspect ratio */
+                border-radius: 8px;
+            }
+
+            /* Heading style */
+            #services .box h3 {
+                font-size: 1.2rem;
+                margin-top: 15px;
+                color: #333;
+            }
+
+            /* Hover effect for each box */
+            #services .box:hover {
+                transform: scale(1.05);
+                /* Slight scale-up on hover */
+            }
+
+        /* Control the spacing between columns */
+        #services .row {
+            gap: 20px;
+            /* Adds space between each box to prevent overlap on hover */
+        }
+
+        .navbar-fixed-bottom .navbar-collapse,
+        .navbar-fixed-top .navbar-collapse {
+            max-height: 400px;
+        }
+    </style>
+
+</head>
+
+<body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
+    <main>
+        <div class="page-loader">
+            <div class="loader">Loading...</div>
+        </div>
+        <nav class="navbar navbar-custom navbar-fixed-top navbar-transparent" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse">
+                        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button><a class="navbar-brand" href="/"><strong>IT-Center</strong></a>
+                </div>
+                <div class="collapse navbar-collapse" id="custom-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a class="nav-link scrollto active" href="#about">
+                                <h5>Giới thiệu</h5>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link scrollto active" href="#services">
+                                <h5>Dịch vụ</h5>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link scrollto active" href="#spotlight">
+                                <h5>Nổi bật</h5>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link scrollto active" href="#benefits">
+                                <h5>Quyền lợi</h5>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link scrollto active" href="#order">
+                                <h5>Đặt lịch</h5>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link scrollto active" href="/dang-nhap" style="display: flex; align-items: flex-start;">
+                                <button class="btn btn-border-w btn-round" type="submit">
+                                    <strong>Đăng nhập</strong>
+                                </button>&nbsp;
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <section class="home-section home-fade home-full-height bg-dark-60 landing-header" id="home"
+                 data-background="@Url.Content($"~/Content/landingPage/images/landing/{Model.HeaderBackground}")">
+            <div class="titan-caption">
+                <div class="caption-content">
+                    <div class="container">
+                        <div class="font-alt mb-30 titan-title-size-4">@Model.HeaderTitle <br> @Model.HeaderSubtitle</div>
+                        <div class="font-alt mt-30">
+                            <a class="btn btn-border-w btn-circle" href="#order">
+                                <i class="icon-calendar"></i>
+                                Đặt lịch ngay
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <img class="img-responsive banner-img"
+                         src="@Url.Content($"~/Content/landingPage/images/landing/{Model.BannerImage}")" alt="Banner">
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <section class="module-medium" id="about">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <h2 class="module-title font-alt">@Model.AboutTitle</h2>
+                            <div class="module-subtitle font-serif large-text">
+                                @Html.Raw(Model.AboutContent)
+                                <div class="text-center">
+                                    <div class="btn-group mt-30">
+                                        <a class="btn btn-border-d btn-circle" href="#">
+                                            <i class="fa fa-facebook-square"></i> Fanpage
+                                        </a><a class="btn btn-border-d btn-circle" href="#">
+                                            <i class="fa fa-google"></i> Gmail
+                                        </a><a class="btn btn-border-d btn-circle" href="#">
+                                            <i class="fa fa-github"></i> Github
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="services" class="module-medium">
+                <div class="container">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <h2 class="module-title font-alt">@Model.ServicesTitle</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+                            <div class="box">
+                                <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.Service1Image}")" class="img-fluid" alt="">
+                                <h3 style="font-size:x-large;">@Model.Service1Title</h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
+                            <div class="box">
+                                <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.Service2Image}")" class="img-fluid" alt="">
+                                <h3 style="font-size:x-large;">@Model.Service2Title</h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="600">
+                            <div class="box">
+                                <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.Service3Image}")" class="img-fluid" alt="">
+                                <h3 style="font-size:x-large;">@Model.Service3Title</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="spotlight" class="module bg-dark parallax-bg landing-screenshot">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <h2 class="module-title font-alt">@Model.SpotlightTitle</h2>
+                            <div class="module-subtitle font-serif">@Model.SpotlightSubtitle</div>
+                        </div>
+                    </div>
+                    <div class="row client">
+                        <div class="owl-carousel text-center" data-items="4" data-pagination="true" data-navigation="false">
+                            @foreach (var image in Model.SpotlightImages.Split(','))
+                            {
+                                <div class="owl-item">
+                                    <div class="col-sm-12">
+                                        <img src="@Url.Content($"~/Content/landingPage/images/landing/{image}")" alt="App Screenshot">
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="module" id="benefits">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <h2 class="module-title font-alt">Quyền lợi hỗ trợ</h2>
+                            <div class="module-subtitle font-serif">
+                                IT-Center cam kết mang đến dịch vụ chất lượng cao nhất,
+                                hỗ trợ khách hàng tận tâm và đảm bảo sự hài lòng trong mọi trải nghiệm.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-strategy"></span></div>
+                                <h3 class="alt-features-title font-alt">Hỗ trợ kỹ thuật 24/7</h3>
+                                Đội ngũ chuyên viên luôn sẵn sàng hỗ trợ mọi lúc, đảm bảo rằng các vấn đề kỹ thuật của bạn sẽ được giải
+                                quyết nhanh chóng và hiệu quả.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-tools-2"></span></div>
+                                <h3 class="alt-features-title font-alt">Đào tạo và hướng dẫn sử dụng phần mềm</h3>
+                                Khách hàng sẽ được hỗ trợ tham gia các buổi đào tạo, hướng dẫn chi tiết để tận dụng tối đa các phần mềm
+                                và công cụ mà IT-Center cung cấp.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-target"></span></div>
+                                <h3 class="alt-features-title font-alt">Tư vấn miễn phí</h3>
+                                IT-Center cung cấp dịch vụ tư vấn chuyên sâu, giúp bạn lựa chọn các giải pháp công nghệ phù hợp, đáp ứng
+                                nhu cầu cụ thể của doanh nghiệp hoặc cá nhân.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-tools"></span></div>
+                                <h3 class="alt-features-title font-alt">Bảo trì và cập nhật định kỳ</h3>
+                                Dịch vụ bảo trì định kỳ giúp hệ thống và phần mềm của bạn luôn hoạt động ổn định, đồng thời cập nhật các
+                                tính năng mới để nâng cao hiệu suất.
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 hidden-xs hidden-sm">
+                            <div class="alt-services-image align-center">
+                                <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.FeatureImage}")" alt="Feature Image">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-camera"></span></div>
+                                <h3 class="alt-features-title font-alt">Khóa đào tạo thiết kế Canva</h3>
+                                IT-Center cung cấp khóa học chuyên sâu về Canva, giúp học viên nắm vững các kỹ năng thiết kế từ cơ bản
+                                đến nâng cao, tạo ra sản phẩm chuyên nghiệp và ấn tượng.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-mobile"></span></div>
+                                <h3 class="alt-features-title font-alt">Khóa đào tạo chuyên nghiệp cho chứng chỉ MOS</h3>
+                                IT-Center cung cấp khóa học giúp học viên nắm vững kiến thức và kỹ năng để đạt chứng chỉ MOS.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-linegraph"></span></div>
+                                <h3 class="alt-features-title font-alt">Hỗ trợ dịch vụ tận nơi</h3>
+                                Đội ngũ kỹ thuật viên sẽ trực tiếp đến địa điểm của khách hàng để thực hiện các dịch vụ sửa chữa, bảo
+                                trì, hoặc cài đặt phần mềm.
+                            </div>
+                            <div class="alt-features-item">
+                                <div class="alt-features-icon"><span class="icon-basket"></span></div>
+                                <h3 class="alt-features-title font-alt">Chính sách bảo hành và bảo trì dịch vụ dài hạn</h3>
+                                IT-Center cam kết bảo hành và bảo trì lâu dài, hỗ trợ khách hàng nhanh chóng để duy trì hệ thống hoạt
+                                động ổn định.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="module" id="order">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <h2 class="module-title font-alt"><strong>ĐẶT LỊCH NGAY</strong></h2>
+                            <div class="module-subtitle font-serif"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <form id="orderForm" role="form" method="post">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="name">Họ và tên</label>
+                                            <input class="form-control" type="text" id="name" name="name" placeholder="Họ và tên"
+                                                   required="required" data-validation-required-message="Vui lòng nhập họ và tên." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="id">Mã số sinh viên</label>
+                                            <input class="form-control" type="text" id="id" name="id" placeholder="Mã số sinh viên"
+                                                   required="required" data-validation-required-message="Vui lòng nhập mã số sinh viên." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="email">Email</label>
+                                            <input class="form-control" type="email" id="email" name="email" placeholder="Email cá nhân"
+                                                   required="required" data-validation-required-message="Vui lòng nhập email của bạn." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="phonenumber">Số điện thoại</label>
+                                            <input class="form-control" type="text" id="phonenumber" name="phonenumber"
+                                                   placeholder="Số điện thoại liên lạc" required="required"
+                                                   data-validation-required-message="Vui lòng nhập số điện thoại của bạn." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="device-type">Loại máy</label>
+                                            <input class="form-control" type="text" id="device-type" name="device-type" placeholder="Loại máy"
+                                                   required="required" data-validation-required-message="Vui lòng nhập loại máy." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="password">Mật khẩu (được bảo mật)</label>
+                                            <input class="form-control" type="password" id="password" name="password" placeholder="Mật khẩu"
+                                                   data-validation-required-message="Vui lòng nhập mật khẩu." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="send-date">Ngày gửi</label>
+                                            <input class="form-control" type="date" id="send-date" name="send-date" required="required"
+                                                   data-validation-required-message="Vui lòng nhập ngày gửi." />
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="shift">Ca trực</label>
+                                            <select class="form-control" id="shift" name="shift" required="required">
+                                                <option value="">Chọn ca trực</option>
+                                                <option value="1">Ca 1</option>
+                                                <option value="2">Ca 2</option>
+                                                <option value="3">Ca 3</option>
+                                                <option value="4">Ca 4</option>
+                                            </select>
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="7" id="describe" name="describe" placeholder="Mô tả yêu cầu"
+                                              required="required"
+                                              data-validation-required-message="Vui lòng nhập mô tả yêu cầu của bạn."></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-block btn-round btn-d" id="ordersubmit" type="submit">Gửi yêu cầu</button>
+                                </div>
+                            </form>
+                            <div class="ajax-response font-alt" id="contactFormResponse"></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="alt-features-item mt-0">
+                                <div class="alt-features-icon"><span class="icon-megaphone"></span></div>
+                                <h3 class="alt-features-title font-alt">Giờ mở cửa</h3>Thứ 2 - Thứ 4 - Thứ 6<br />7:00AM - 17:00PM<br />
+                            </div>
+                            <div class="alt-features-item mt-xs-60">
+                                <div class="alt-features-icon"><span class="icon-map"></span></div>
+                                <h3 class="alt-features-title font-alt">Địa chỉ</h3>Sảnh 5AB, Trường Đại học Tôn Đức Thắng<br />19
+                                Nguyễn Hữu Thọ, phường Tân Phong, Quận 7, TP.Hồ Chí Minh
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer class="footer bg-dark">
+                <div class="container">
+                    <div class="row gy">
+                        <div class="col-sm-6">
+                            <p class="copyright font-alt">
+                                &copy; 2024&nbsp;<a href="/">
+                                    <img src="/Content/landingPage/images/landing/ITCenterLogo.png" alt=""
+                                         style="width: 22%; margin-right: 5px; margin-bottom: 2px">
+                                </a>All Rights Reserved
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="footer-social-links">
+                                <a href="https://www.facebook.com/caitzone/" style="font-size: 15px; margin-left: 10px;">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="https://www.youtube.com/channel/UCZMw71VuImcFOuBLsX-MyZg/featured"
+                                   style="font-size: 15px; margin-left: 10px;">
+                                    <i class="fa fa-youtube-play"></i>
+                                </a>
+                                <a href="https://maps.app.goo.gl/sKZ8RTDk5arhzG947" style="font-size: 15px; margin-left: 10px;">
+                                    <i class="fa fa-location-arrow"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </footer>
+            <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+        </div>
+    </main>
+    <!--
+      JavaScripts
+      =============================================
+      -->
+    <script src="/Content/landingPage/lib/jquery/dist/jquery.js"></script>
+    <script src="/Content/landingPage/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/Content/landingPage/lib/wow/dist/wow.js"></script>
+    <script src="/Content/landingPage/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js"></script>
+    <script src="/Content/landingPage/lib/isotope/dist/isotope.pkgd.js"></script>
+    <script src="/Content/landingPage/lib/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="/Content/landingPage/lib/flexslider/jquery.flexslider.js"></script>
+    <script src="/Content/landingPage/lib/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="/Content/landingPage/lib/smoothscroll.js"></script>
+    <script src="/Content/landingPage/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
+    <script src="/Content/landingPage/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
+    <script src="/Scripts/landingPage/plugins.js"></script>
+    <script src="/Scripts/landingPage/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function updateCarouselItems() {
+                if ($(window).width() < 992) { // Kích thước nhỏ hơn máy tính (992px)
+                    $(".owl-carousel").data("items", 3); // Hiển thị 2 ảnh khi ở màn hình nhỏ
+                } else {
+                    $(".owl-carousel").data("items", 4); // Hiển thị 3 ảnh khi ở màn hình máy tính
+                }
+
+                $(".owl-carousel").trigger('destroy.owl.carousel'); // Hủy carousel cũ
+                $(".owl-carousel").owlCarousel({ // Tạo lại carousel với cấu hình mới
+                    loop: true,
+                    margin: 10,
+                    nav: false,
+                    items: $(".owl-carousel").data("items"),
+                    responsive: {
+                        0: {
+                            items: 2 // Đảm bảo hiển thị 2 ảnh khi màn hình rất nhỏ
+                        },
+                        768: {
+                            items: $(".owl-carousel").data("items") // Số lượng ảnh tùy thuộc vào giá trị `data-items`
+                        }
+                    }
+                });
+            }
+
+            // Khởi chạy carousel lần đầu và cập nhật khi thay đổi kích thước màn hình
+            updateCarouselItems();
+            $(window).resize(updateCarouselItems);
+        });
+
+    </script>
+
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                hoten: document.getElementById('name').value,
+                maKH: document.getElementById('id').value,
+                email: document.getElementById('email').value,
+                sdt: document.getElementById('phonenumber').value,
+                tenmay: document.getElementById('device-type').value,
+                matkhau: document.getElementById('password').value,
+                ngaygui: document.getElementById('send-date').value,
+                loaihotro: document.getElementById('describe').value
+            };
+
+            fetch('@Url.Action("CreateSupportRequestJson", "Default")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert(data.message, 'success');
+                    document.getElementById('orderForm').reset();
+                } else {
+                    showAlert(data.message || 'Có lỗi xảy ra khi gửi yêu cầu', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Có lỗi xảy ra khi gửi yêu cầu', 'danger');
+            });
+        });
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            `;
+
+            const form = document.getElementById('orderForm');
+            form.parentNode.insertBefore(alertDiv, form);
+
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

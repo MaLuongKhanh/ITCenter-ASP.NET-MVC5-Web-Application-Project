@@ -1,0 +1,206 @@
+﻿@model WebApplication.Models.ScheduleViewModel
+
+@{
+    ViewBag.Title = "Lịch trực";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<style>
+    .schedule-entry {
+        position: relative;
+    }
+
+    .delete-icon {
+        display: none;
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+    }
+
+    .schedule-entry:hover .delete-icon {
+        display: inline-block;
+    }
+</style>
+
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Lịch trực của bạn</h3>
+
+                    <!-- Hiển thị thông báo thành công hoặc lỗi -->
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success text-center" id="successMessage">
+                            @TempData["Success"]
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger text-center" id="errorMessage">
+                            @TempData["Error"]
+                        </div>
+                    }
+
+                    <br>
+                    <div class="schedule-form">
+                        <form asp-action="Index" method="post" class="form-inline justify-content-center">
+                            <!-- Ngày trực -->
+                            <div class="form-group">
+                                <label for="ngayTruc">Ngày trực: </label>
+                                <select id="ngayTruc" name="ngaytrongtuan" class="form-control ml-2">
+                                    <option value="2">Thứ 2</option>
+                                    <option value="4">Thứ 4</option>
+                                    <option value="6">Thứ 6</option>
+                                </select>
+                            </div>
+
+                            <!-- Ca trực -->
+                            <div class="form-group ml-2">
+                                <label for="caTruc">Ca trực: </label>
+                                <select id="caTruc" name="catruc" class="form-control ml-2">
+                                    <option value="1">7:30am - 9:30am</option>
+                                    <option value="2">9:30am - 11:30am</option>
+                                    <option value="3">1:30pm - 3:30pm</option>
+                                    <option value="4">3:30pm - 5:00pm</option>
+                                </select>
+                            </div>
+
+                            <div class="button-group ml-2">
+                                <button type="submit" class="btn btn-outline-success btn-fw">Đăng ký</button>
+                                <button type="button" id="saveButton" class="btn btn-info btn-fw">Cập nhật</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr class="bg-light-gray">
+                                    <th>Ca trực</th>
+                                    <th>Thứ 2</th>
+                                    <th>Thứ 4</th>
+                                    <th>Thứ 6</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Hiển thị danh sách lịch trực -->
+                                @foreach (var detail in Model.ScheduleDetails)
+                                {
+                                    <tr>
+                                        <td class="align-middle">@detail.giobatdau - @detail.gioketthuc</td>
+
+                                        <!-- Hiển thị thông tin của từng ngày -->
+                                        @for (int i = 2; i <= 6; i += 2)
+                                        {
+                                            <td>
+                                                @{
+                                                    var schedulesForDetail = Model.Schedules
+                                                        .Where(s => s.catruc == detail.catruc && s.ngaytrongtuan == i);
+                                                    var currentUserMSSV = Session["MSSV"]?.ToString();
+
+                                                    var sb = new System.Text.StringBuilder();
+
+                                                    foreach (var schedule in schedulesForDetail)
+                                                    {
+                                                        var name = schedule.HumanResource != null ? schedule.HumanResource.hoten : "Không có thông tin";
+                                                        var isCurrentUser = schedule.mssv == currentUserMSSV;
+                                                        
+                                                        sb.Append($"<div class='schedule-entry' style='padding-top: 5px;' data-id='{schedule.schedule_id}' data-mssv='{schedule.mssv}'>");
+                                                        sb.Append(name);
+                                                        if (isCurrentUser)
+                                                        {
+                                                            sb.Append("<span class='delete-icon'>&#10060;</span>");
+                                                        }
+                                                        sb.Append("</div>");
+                                                    }
+
+                                                    @Html.Raw(sb.ToString())
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Store IDs of entries marked for deletion
+    const tempDeleteList = [];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentUserMSSV = '@Session["MSSV"]';
+        
+        document.querySelectorAll(".schedule-entry").forEach(entry => {
+            const entryMSSV = entry.getAttribute("data-mssv");
+            const deleteIcon = entry.querySelector(".delete-icon");
+            
+            if (deleteIcon && entryMSSV === currentUserMSSV) {
+                deleteIcon.addEventListener("click", function () {
+                    const scheduleId = entry.getAttribute("data-id");
+                    
+                    if (!tempDeleteList.includes(scheduleId)) {
+                        tempDeleteList.push(scheduleId);
+                        entry.style.color = "#800080";
+                    }
+                });
+            }
+        });
+    });
+
+    document.getElementById("saveButton").addEventListener("click", function(e) {
+    e.preventDefault();
+    if (tempDeleteList.length === 0) {
+        alert("Chưa có mục nào được chọn để xóa!");
+        return;
+    }
+
+    if (confirm("Bạn có chắc chắn muốn xoá các mục đã chọn?")) {
+        // Convert array to comma-separated string
+        const scheduleIdsString = tempDeleteList.join(',');
+        
+        fetch('/ScheduleRegister/DeleteConfirmed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'scheduleIds=' + scheduleIdsString
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || "Có lỗi xảy ra khi xử lý yêu cầu.");
+            }
+        })
+        .catch(error => {
+            alert("Có lỗi xảy ra khi gửi yêu cầu.");
+        });
+    }
+});
+
+
+
+    // Function to hide messages after 3 seconds
+    setTimeout(function () {
+        var successMessage = document.getElementById("successMessage");
+        var errorMessage = document.getElementById("errorMessage");
+        if (successMessage) {
+            successMessage.style.display = "none"; // Hide success message
+        }
+        if (errorMessage) {
+            errorMessage.style.display = "none"; // Hide error message
+        }
+    }, 3000);
+</script>

@@ -1,0 +1,259 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<style>
+
+    .account-settings .user-profile {
+        margin: 0 0 1rem 0;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+
+        .account-settings .user-profile .user-avatar {
+            margin: 0 0 1rem 0;
+        }
+
+            .account-settings .user-profile .user-avatar img {
+                width: 90px;
+                height: 90px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+                border-radius: 100px;
+            }
+
+        .account-settings .user-profile h5.user-name {
+            margin: 0 0 0.5rem 0;
+        }
+
+        .account-settings .user-profile h6.user-email {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+
+    .account-settings .about {
+        margin: 1rem 0 0 0;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .card {
+        background: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        ;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        border: 0;
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        border: 1px solid #596280;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        font-size: .825rem;
+        background: #1A233A;
+        color: #ffffff;
+    }
+</style>
+
+
+<div class="content-wrapper">
+    <div class="row gutters">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row gutters">
+                        <div class="account-settings" style="margin: 0 auto">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <img src="@(string.IsNullOrEmpty(Model.avatar) ? "/Content/assets/images/faces-clipart/default-avatar.jpg" : "/Content/assets/images/faces-clipart/" + Model.avatar)" alt="@Model.hoten">
+                                </div>
+                                <h6>Cập nhật ảnh đại diện</h6>
+                                <input type="file" id="fileUpload" class="form-control" style="display: none;"
+                                       onchange="previewImage(event)">
+                                <button class="btn btn-info" id="uploadBtn">Chọn ảnh</button>
+                            </div>
+                            <!-- <div class="about">
+                                      <h5 class="mb-2 text-primary">About</h5>
+                                      <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.
+                                      </p>
+                                    </div> -->
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-3 text-primary">Thông tin cá nhân</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="fullName">Họ và tên</label>
+                                <input type="text" class="form-control" id="fullName" value="@Model.hoten">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="birthday">Ngày sinh</label>
+                                <input type="date" class="form-control" id="birthday" value="@(Model.ngaysinh?.ToString("yyyy-MM-dd"))" style="color: #596280">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="userID">MSSV</label>
+                                <input type="text" class="form-control" id="userID" value="@Model.mssv" readonly>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="role">Vị trí</label>
+                                <select class="form-control" id="role" style="color: #596280">
+                                    <option value="" disabled>Chọn vị trí</option>
+                                    <option value="frontend" @(Model.trangthai == "frontend" ? "selected" : "")>Front-End Developer</option>
+                                    <option value="backend" @(Model.trangthai == "backend" ? "selected" : "")>Back-End Developer</option>
+                                    <option value="business-analyser" @(Model.trangthai == "business-analyser" ? "selected" : "")>Business Analyser</option>
+                                    <option value="designer" @(Model.trangthai == "designer" ? "selected" : "")>Designer</option>
+                                    <option value="tester" @(Model.trangthai == "tester" ? "selected" : "")>Tester</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-3 text-primary">Thông tin liên hệ</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="facebook">Facebook</label>
+                                <input type="text" class="form-control" id="facebook" value="@Model.facebookURL">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" value="@(ViewBag.Email ?? "")" placeholder="abc@gmail.com">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="github">Github</label>
+                                <input type="text" class="form-control" id="github" value="@Model.githubURL">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="phonenumber">Số điện thoại</label>
+                                <input type="text" class="form-control" id="phonenumber" value="@Model.sodienthoai">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-secondary">Hoàn tác</button>
+                                <button type="button" class="btn btn-primary">Cập nhật</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Handle avatar upload
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('fileUpload').click();
+        });
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('@Url.Action("UploadAvatar", "Profile")', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update avatar preview
+                        const avatar = document.querySelector('.user-avatar img');
+                        avatar.src = '/Content/assets/images/faces-clipart/' + data.fileName + '?t=' + new Date().getTime();
+                        showAlert('Cập nhật ảnh đại diện thành công!', 'success');
+                    } else {
+                        showAlert(data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    showAlert('Có lỗi xảy ra khi tải ảnh lên', 'danger');
+                });
+            }
+        }
+
+        // Handle form submission
+        document.querySelector('button[class="btn btn-primary"]').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                mssv: document.getElementById('userID').value,
+                hoten: document.getElementById('fullName').value,
+                ngaysinh: document.getElementById('birthday').value,
+                facebookURL: document.getElementById('facebook').value,
+                githubURL: document.getElementById('github').value,
+                sodienthoai: document.getElementById('phonenumber').value,
+                email: document.getElementById('email').value
+            };
+
+            fetch('@Url.Action("UpdateProfile", "Profile")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('Cập nhật thông tin thành công!', 'success');
+                } else {
+                    showAlert(data.message, 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Có lỗi xảy ra khi cập nhật thông tin', 'danger');
+            });
+        });
+
+        // Handle reset button
+        document.querySelector('button[class="btn btn-secondary"]').addEventListener('click', function() {
+            location.reload();
+        });
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            `;
+
+            const cardBody = document.querySelector('.card-body');
+            if (cardBody) {
+                cardBody.insertBefore(alertDiv, cardBody.firstChild);
+
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 3000);
+            }
+        }
+    </script>
+}
+

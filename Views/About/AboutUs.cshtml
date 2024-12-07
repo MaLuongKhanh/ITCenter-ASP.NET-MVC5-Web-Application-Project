@@ -1,0 +1,578 @@
+﻿
+@{
+    ViewBag.Title = "AboutUs";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+<style>
+    .form-inline .form-group {
+      margin-right: 30px;
+      /* Tăng khoảng cách giữa các trường */
+    }
+
+    .form-inline button {
+      margin-right: 20px;
+      /* Tăng khoảng cách giữa các nút */
+    }
+
+    ul.i-list {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    ul.i-list .list-title {
+      display: inline-block;
+      position: absolute;
+    }
+
+    ul.i-list li {
+      padding: 2px 0px;
+    }
+
+    ul.i-list i.fa {
+      margin-right: 7px;
+    }
+
+    ul.i-list .list-item {
+      margin-top: 3px;
+      display: inline-block;
+    }
+
+    ul.i-list.filled i.fa {
+      color: white;
+      font-size: 9px;
+      padding: 5px;
+      border-radius: 50%;
+    }
+
+    ul.e-icon-list.filled li {
+      padding: 2px 0px;
+      line-height: 24px;
+    }
+
+    ul.i-list.underline li {
+      padding: 6px 0px;
+      border-bottom: 1px solid #eee;
+    }
+
+    ul.i-list.medium li {
+      padding-bottom: 25px;
+      position: relative;
+    }
+
+    ul.i-list.medium .icon {
+      margin-right: 25px;
+      color: white;
+      font-size: 25px;
+      text-align: center;
+      line-height: 68px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      box-shadow: 0 5px 16px rgba(0, 0, 0, .28);
+      position: relative;
+      z-index: 1;
+      /*background-image: url(../img/crease.svg) !important;
+      -moz-background-size: 100% 100% !important;
+      background-size: 100% 100% !important;
+      background-position: center center !important;*/
+    }
+
+    ul.i-list.medium .icon i.fa {
+      margin: 0;
+    }
+
+    ul.i-list.medium.bordered .icon {
+      background: white;
+      color: inherit;
+      border: 2px solid #8fc135;
+      font-size: 26px;
+      color: #8fc135;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .28);
+    }
+
+    ul.i-list.medium .list-item {
+      text-transform: uppercase;
+    }
+
+    ul.i-list.large .icon {
+      margin-right: 30px;
+      background: #d0d0d0;
+      color: white;
+      font-size: 30px;
+      text-align: center;
+      line-height: 80px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .28);
+    }
+
+    ul.i-list.large .icon i.fa {
+      margin: 0;
+    }
+
+    ul.i-list.large.bordered .icon {
+      background: inherit;
+      color: inherit;
+      border: 2px solid #8fc135;
+      font-size: 30px;
+      color: #8fc135;
+    }
+
+    ul.i-list.large .list-item {
+      text-transform: uppercase;
+    }
+
+    ul.i-list .icon {
+      float: left;
+    }
+
+    ul.i-list.right {
+      text-align: right;
+    }
+
+    ul.i-list.right .icon {
+      float: right;
+    }
+
+    ul.i-list.right .icon {
+      float: right;
+      margin-right: 0;
+      margin-left: 25px;
+    }
+
+    ul.i-list.large.right .icon {
+      float: right;
+      margin-right: 0;
+      margin-left: 30px;
+    }
+
+    ul.i-list.large li {
+      margin-bottom: 25px;
+    }
+
+    ul.i-list .icon-content {
+      overflow: hidden;
+    }
+
+    ul.i-list .icon-content .title {
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    .left-line .iconlist-timeline {
+      left: auto;
+      right: 35px;
+    }
+
+    .iconlist-timeline {
+      position: absolute;
+      top: 1%;
+      left: 32px;
+      width: 1px;
+      height: 99%;
+      border-right-width: 1px;
+      border-right-style: dashed;
+      height: 100%;
+      border-color: #ccc;
+    }
+
+    .icon {
+      background-color: #252b3e;
+    }
+
+    separator,
+    .testimonial-two,
+    .exp-separator-inner {
+      border-color: #252b3e;
+    }
+
+    .exp-separator {
+      border-color: #252b3e;
+      border-top-width: 2px;
+      margin-top: 10px;
+      margin-bottom: 2px;
+      width: 100%;
+      max-width: 55px;
+      border-top-style: solid;
+      height: auto;
+      clear: both;
+      position: relative;
+      z-index: 11;
+    }
+
+    .section-sub-title {
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: 400;
+      font-family: Poppins;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-top: 0.45em;
+      margin-bottom: 0.35em;
+      color: #6c7293;
+      font-family: Poppins;
+      letter-spacing: -0.02em;
+    }
+
+    .pb-20 {
+      padding-bottom: 20px !important;
+    }
+
+    .text-center {
+      text-align: center !important;
+    }
+
+    .center-separator .exp-separator-inner,
+    .center-separator.exp-separator {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .member {
+      margin-bottom: 2rem
+    }
+
+    .member .member-top {
+      position: relative;
+      background-color: #d7d4d4;
+      margin-bottom: 1.35rem;
+      overflow: hidden
+    }
+
+    .member .member-top figure {
+      position: relative
+    }
+
+    .member .member-top figure img {
+      display: block;
+      width: 100%;
+      height: auto
+    }
+
+    .member .member-top figure:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: #673AB7;
+      opacity: 0;
+      visibility: hidden;
+      transition: all .65s cubic-bezier(0.92, 0.17, 0.29, 0.93) 0s;
+      z-index: 50
+    }
+
+    .member .member-top .social-icons {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -ms-flex-align: stretch;
+      align-items: stretch;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 99;
+      padding: 0;
+      margin: 0;
+      -ms-transform: translateX(-100%);
+      transform: translateX(-100%);
+      transition: all .65s cubic-bezier(0.92, 0.17, 0.29, 0.93) 0s
+    }
+
+    .member .member-top .social-icons label {
+      color: #f2f2f2;
+      font-weight: 400;
+      margin-right: 4px;
+      font-size: 12px
+    }
+
+    .member .member-top .social-icons .social-icon {
+      display: block;
+      border-radius: 0;
+      margin: 0;
+      width: 3rem;
+      height: 3rem;
+      line-height: 3rem
+    }
+
+    @@media (min-width: 992px) and (max-width: 1199px) {
+      .member .member-top .social-icons .social-icon {
+        width: 2.7rem;
+        height: 2.7rem;
+        line-height: 2.7rem
+      }
+    }
+
+    .member .member-title {
+      font-size: 1.25rem;
+      margin-bottom: 1rem
+    }
+
+    .member .member-title a {
+      color: #6c7293
+    }
+
+    .member .member-title a:hover,
+    .member .member-title a:focus {
+      color: #673AB7
+    }
+
+    .member .member-title small {
+      display: inline;
+      font-size: 80%;
+      color: #E91E63;
+      font-weight: 600
+    }
+
+    .member .member-title:after {
+      content: '';
+      clear: both;
+      display: table
+    }
+
+    .member.text-center .member-title {
+      margin-bottom: 0.85rem
+    }
+
+    .member.text-center .member-title small {
+      display: block;
+      margin-top: 0.6rem
+    }
+
+    .member:hover .member-top figure:after {
+      visibility: visible;
+      opacity: 0.35
+    }
+
+    .member:hover .member-top .social-icons {
+      -ms-transform: translateX(0);
+      transform: translateX(0)
+    }
+
+    .swiper-container .member {
+      margin-bottom: 0
+    }
+
+    .swiper-container .member p:last-child {
+      margin-bottom: 0
+    }
+
+
+    .social-icons {
+      margin-bottom: 1rem
+    }
+
+    .social-icons:after {
+      content: '';
+      display: table;
+      clear: both
+    }
+
+    .social-icons .social-icon {
+      display: inline-block;
+      font-size: 1.1rem;
+      width: 2.2rem;
+      height: 2.2rem;
+      line-height: 2.2rem;
+      border-radius: 4px;
+      color: #323232;
+      background-color: #fff;
+      transition: all .65s cubic-bezier(0.92, 0.17, 0.29, 0.93) 0s;
+      margin: 0 0 0.25rem;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
+    }
+
+    .social-icons .social-icon+.social-icon {
+      margin-left: 0.25rem
+    }
+
+    .social-icons .social-icon.circle {
+      border-radius: 50%
+    }
+
+    .social-icons .social-icon:hover,
+    .social-icons .social-icon:focus {
+      color: #fff;
+      background-color: #673AB7
+    }
+
+    .bg-white .social-icons .social-icon {
+      background-color: #d7d4d4
+    }
+
+    .bg-white .social-icons .social-icon:hover,
+    .bg-white .social-icons .social-icon:focus {
+      color: #fff;
+      background-color: #673AB7
+    }
+
+    .social-icons.circle .social-icon {
+      border-radius: 50%
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12 pb-20 text-center">
+            <h2 class="section-title mb-10"><span> Có Tâm - Có tầm - Sẻ Chia - Hỗ Trợ </span></h2>
+            <br><br>
+            <div class="row justify-content-center">
+                <div class="col-md-3 col-xs-6 col-xss-12">
+                    <div class="member text-center">
+                        <div class="member-top">
+                            <figure>
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Member Name">
+                            </figure>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" title="Facebook"><i class="mdi mdi-facebook-box"></i></a>
+                                <a href="#" class="social-icon" title="Gmail"><i class="mdi mdi-email"></i></a>
+                                <a href="#" class="social-icon" title="Github"><i class="mdi mdi-github-circle"></i></a>
+                            </div><!-- End .social-icons -->
+                        </div><!-- End .member-top -->
+                        <h3 class="member-title"><a href="#">Lê Tùng Dương</a> <small>(Front-End Developer)</small></h3>
+                    </div><!-- End .member -->
+                </div><!-- End .col-md-3 -->
+                <div class="col-md-3 col-xs-6 col-xss-12">
+                    <div class="member text-center">
+                        <div class="member-top">
+                            <figure>
+                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Member Name">
+                            </figure>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" title="Facebook"><i class="mdi mdi-facebook-box"></i></a>
+                                <a href="#" class="social-icon" title="Gmail"><i class="mdi mdi-email"></i></a>
+                                <a href="#" class="social-icon" title="Github"><i class="mdi mdi-github-circle"></i></a>
+                            </div><!-- End .social-icons -->
+                        </div><!-- End .member-top -->
+                        <h3 class="member-title"><a href="#">Mã Lương Khánh</a> <small>(Back-End Developer)</small></h3>
+                    </div><!-- End .member -->
+                </div><!-- End .col-md-3 -->
+            </div>
+            <p class="section-sub-title">
+                "Đừng để công nghệ làm chậm bước tiến của bạn. Hãy để chúng tôi giúp bạn tiến xa hơn!"
+            </p>
+            <div class="exp-separator center-separator">
+                <div class="exp-separator-inner">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <ul class="i-list medium">
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-harddisk"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Sửa chữa phần cứng</h3>
+                        <p class="sub-title">
+                            IT-Center cung cấp dịch vụ kiểm tra và sửa chữa các bộ phận phần cứng máy tính như bo mạch chủ, ổ
+                            cứng, RAM, và nguồn điện.
+                        </p>
+                    </div>
+                    <div class="iconlist-timeline"></div>
+                </li>
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-settings-box"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Cài đặt &amp; bảo trì phần mềm</h3>
+                        <p>
+                            Dịch vụ bao gồm cài đặt hệ điều hành, phần mềm văn phòng, phần mềm diệt virus, và các ứng dụng
+                            chuyên ngành khác.
+                        </p>
+                    </div>
+                    <div class="iconlist-timeline"></div>
+                </li>
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-content-save"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Sao lưu &amp; khôi phục dữ liệu</h3>
+                        <p>
+                            Hỗ trợ sao lưu dữ liệu quan trọng và khôi phục dữ liệu bị mất do lỗi phần cứng hoặc virus.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul class="i-list medium">
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-shape-plus"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Tư vấn nâng cấp hệ thống</h3>
+                        <p class="sub-title">
+                            IT-Center tư vấn và thực hiện nâng cấp phần cứng, giúp máy tính hoạt động hiệu quả hơn.
+                        </p>
+                    </div>
+                    <div class="iconlist-timeline"></div>
+                </li>
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-server-network"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Khắc phục sự cố mạng</h3>
+                        <p>
+                            Hỗ trợ sửa chữa và cấu hình các vấn đề liên quan đến mạng nội bộ, kết nối internet, và thiết lập
+                            mạng không dây.
+                        </p>
+                    </div>
+                    <div class="iconlist-timeline"></div>
+                </li>
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-star"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Chuyên nghiệp &amp; uy tín</h3>
+                        <p>
+                            IT-Center có đội ngũ kỹ thuật viên giàu kinh nghiệm, giúp đảm bảo chất lượng sửa chữa và tư vấn
+                            tốt nhất.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul class="i-list medium">
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-tag-faces"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Tư vấn miễn phí</h3>
+                        <p class="sub-title">
+                            Cung cấp dịch vụ tư vấn miễn phí về việc bảo dưỡng, nâng cấp, và sử dụng máy tính hiệu quả hơn.
+                        </p>
+                    </div>
+                    <div class="iconlist-timeline"></div>
+                </li>
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-responsive"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Bảo hành dài hạn</h3>
+                        <p>
+                            Sau khi sửa chữa, IT-Center cung cấp chế độ bảo hành dài hạn để đảm bảo chất lượng và sự hài lòng
+                            của khách hàng.
+                        </p>
+                    </div>
+                    <div class="iconlist-timeline"></div>
+                </li>
+                <li class="i-list-item">
+                    <div class="icon"> <i class="mdi mdi-security"></i> </div>
+                    <div class="icon-content">
+                        <h3 class="title">Bảo mật thông tin</h3>
+                        <p>
+                            IT-Center cam kết bảo mật dữ liệu cá nhân và công việc của khách hàng, tránh việc mất mát hoặc rò
+                            rỉ thông tin.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

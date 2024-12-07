@@ -1,0 +1,62 @@
+@model IEnumerable<WebApplication.Models.Footer>
+@{
+    ViewBag.Title = "Quản lý Footer";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Danh sách Footer</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nội dung trái</th>
+                            <th>Nội dung phải</th>
+                            <th>Link</th>
+                            <th>Hiển thị</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="row_@item.footer_id">
+                                <td>@item.contentleft</td>
+                                <td>@item.contentright</td>
+                                <td>@item.link</td>
+                                <td>@item.hide</td>
+                                <td>
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.footer_id }, new { @class = "btn btn-primary btn-sm" })
+                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="DeleteFooter(@item.footer_id)">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function DeleteFooter(id) {
+            if (confirm('Bạn có chắc muốn xóa footer này?')) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete", "Footers")',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#row_' + id).remove();
+                        } else {
+                            alert('Có lỗi xảy ra khi xóa footer.');
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+}

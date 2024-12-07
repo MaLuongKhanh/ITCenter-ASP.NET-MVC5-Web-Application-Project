@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @{Html.RenderAction("getHeader", "AdminTemp");}
+    @RenderSection("_Header", required: false)
+</head>
+<body>
+    @{
+        if (Session["Role"]?.ToString().ToLower() != "admin")
+        {
+            Response.Redirect("/dang-nhap");
+            return;
+        }
+    }
+    <div class="container-scroller">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="/admin/">
+                        <span class="menu-icon"><i class="mdi mdi-speedometer"></i></span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("Index","menus")">
+                        <span class="menu-icon"><i class="mdi mdi-table-large"></i></span>
+                        <span class="menu-title">Quản lý Menu</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("Index", "HeaderFooter")">
+                        <span class="menu-icon"><i class="mdi mdi-format-align-bottom"></i></span>
+                        <span class="menu-title">Quản lý tiêu đề</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("Index", "LandingManagement")">
+                        <span class="menu-icon"><i class="mdi mdi-home-variant"></i></span>
+                        <span class="menu-title">Quản lý Landing Page</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("Index","HumanResources")">
+                        <span class="menu-icon"><i class="mdi mdi-account-group"></i></span>
+                        <span class="menu-title">Quản lý nhân sự</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="@Url.Action("Index","News")">
+                        <span class="menu-icon"><i class="mdi mdi-newspaper"></i></span>
+                        <span class="menu-title">Quản lý tin tức</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="/doi-mat-khau">
+                        <span class="menu-icon"><i class="mdi mdi-lock"></i></span>
+                        <span class="menu-title">Đổi mật khẩu</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                        <span class="menu-icon"><i class="mdi mdi-logout"></i></span>
+                        <span class="menu-title">Đăng xuất</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid page-body-wrapper">
+            @{Html.RenderAction("getNavbar", "Temp", new { area = "" });}
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+                @{Html.RenderAction("getFooter", "Temp", new { area = "" });}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận đăng xuất</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn đăng xuất?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <a href="/Login/Logout" class="btn btn-primary">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- plugins:js -->
+    <script src="~/Areas/admin/Content/vendors/js/vendor.bundle.base.js"></script>
+    <!-- Custom js -->
+    <script src="~/Areas/admin/Content/js/off-canvas.js"></script>
+    <script src="~/Areas/admin/Content/js/hoverable-collapse.js"></script>
+    <script src="~/Areas/admin/Content/js/misc.js"></script>
+    @RenderSection("_Footer", required: false)
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function() {
+            $('#logoutBtn').click(function() {
+                $('#logoutModal').modal('show');
+            });
+        });
+    </script>
+</body>
+</html>

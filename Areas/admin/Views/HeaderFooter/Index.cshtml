@@ -1,0 +1,173 @@
+@{
+    ViewBag.Title = "Quản lý Header & Footer";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+    var header = ViewBag.Header as WebApplication.Models.Header;
+    var footers = ViewBag.Footers as List<WebApplication.Models.Footer>;
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Quản lý Header</h4>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            @using (Html.BeginForm("EditHeader", "HeaderFooter", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("id", header?.id)
+
+                <div class="form-group">
+                    <label>Tên Website</label>
+                    <input type="text" name="websiteName" value="@(header?.websiteName)" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Logo</label>
+                    <input type="file" name="logoFile" class="form-control" />
+                    @if (!string.IsNullOrEmpty(header?.logo))
+                    {
+                        <img src="~/Areas/admin/Content/images/@header.logo" alt="Current Logo" style="max-width: 200px; margin-top: 10px;" />
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label>Favicon</label>
+                    <input type="file" name="faviconFile" class="form-control" />
+                    @if (!string.IsNullOrEmpty(header?.favicon))
+                    {
+                        <img src="~/Areas/admin/Content/images/@header.favicon" alt="Current Favicon" style="max-width: 50px; margin-top: 10px;" />
+                    }
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cập nhật Header</button>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="col-12 grid-margin stretch-card mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Quản lý Footer</h4>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nội dung trái</th>
+                            <th>Nội dung phải</th>
+                            <th>Link</th>
+                            <th>Hiển thị</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in footers)
+                        {
+                            <tr id="row_@item.footer_id">
+                                <td>
+                                    <textarea name="contentleft" class="form-control">@item.contentleft</textarea>
+                                </td>
+                                <td>
+                                    <textarea name="contentright" class="form-control">@item.contentright</textarea>
+                                </td>
+                                <td>
+                                    <input type="text" name="link" value="@item.link" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="hide" @(item.hide == true ? "checked" : "") />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="SaveFooter(@item.footer_id)">Lưu</button>
+                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="DeleteFooter(@item.footer_id)">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Areas/admin/Content/vendors/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('content');
+    </script>
+    <script>
+        function SaveFooter(id) {
+            var row = $('#row_' + id);
+            var footer = {
+                footer_id: id,
+                contentleft: row.find('textarea[name="contentleft"]').val(),
+                contentright: row.find('textarea[name="contentright"]').val(),
+                link: row.find('input[name="link"]').val(),
+                hide: row.find('input[name="hide"]').is(':checked')
+            };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EditFooter", "HeaderFooter")',
+                data: footer,
+                success: function (response) {
+                    if (response.success) {
+                        var alertHtml = '<div class="alert alert-success">' + response.message + '</div>';
+                        $('.card-body').first().prepend(alertHtml);
+                        
+                        setTimeout(function() {
+                            $('.alert').fadeOut('slow', function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    } else {
+                        var alertHtml = '<div class="alert alert-danger">' + response.message + '</div>';
+                        $('.card-body').first().prepend(alertHtml);
+                    }
+                },
+                error: function () {
+                    var alertHtml = '<div class="alert alert-danger">Có lỗi xảy ra khi cập nhật!</div>';
+                    $('.card-body').first().prepend(alertHtml);
+                }
+            });
+        }
+
+        function DeleteFooter(id) {
+            if (confirm('Bạn có chắc muốn xóa footer này?')) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete", "HeaderFooter")',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#row_' + id).remove();
+                            var alertHtml = '<div class="alert alert-success">Xóa Footer thành công!</div>';
+                            $('.card-body').first().prepend(alertHtml);
+                            
+                            setTimeout(function() {
+                                $('.alert').fadeOut('slow', function() {
+                                    $(this).remove();
+                                });
+                            }, 3000);
+                        } else {
+                            var alertHtml = '<div class="alert alert-danger">Có lỗi xảy ra khi xóa footer.</div>';
+                            $('.card-body').first().prepend(alertHtml);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+}

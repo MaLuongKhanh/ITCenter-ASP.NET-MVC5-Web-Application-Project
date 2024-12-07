@@ -1,0 +1,328 @@
+@model WebApplication.Models.LandingContent
+@{
+    ViewBag.Title = "Quản lý Landing Page";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Quản lý nội dung Landing Page</h4>
+            
+            @using (Html.BeginForm("SaveContent", "LandingManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Id)
+
+                <!-- Header Section -->
+                <div class="form-group">
+                    <h5>Header Section</h5>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.HeaderTitle)
+                        @Html.TextBoxFor(m => m.HeaderTitle, new { @class = "form-control" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.HeaderSubtitle)
+                        @Html.TextAreaFor(m => m.HeaderSubtitle, new { @class = "form-control" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.HeaderBackground)
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="file" name="headerBgImage" class="form-control" onchange="previewImage(this, '#headerPreview')" />
+                            </div>
+                            <div class="col-md-3">
+                                <img id="headerPreview" src="@Url.Content(!string.IsNullOrEmpty(Model.HeaderBackground) ? $"~/Content/landingPage/images/landing/{Model.HeaderBackground}" : "")" 
+                                     class="img-thumbnail" style="max-height: 100px; @(string.IsNullOrEmpty(Model.HeaderBackground) ? "display:none" : "")" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner Image -->
+                <div class="form-group">
+                    <h5>Banner Image</h5>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.BannerImage)
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="file" name="bannerImage" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                @if (!string.IsNullOrEmpty(Model.BannerImage))
+                                {
+                                    <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.BannerImage}")" 
+                                         class="img-thumbnail" style="max-height: 100px" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="form-group">
+                    <h5>About Section</h5>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.AboutTitle)
+                        @Html.TextBoxFor(m => m.AboutTitle, new { @class = "form-control" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.AboutContent)
+                        @Html.TextAreaFor(m => m.AboutContent, new { @class = "form-control", id = "aboutEditor" })
+                    </div>
+                </div>
+
+                <!-- Services Section -->
+                <div class="form-group">
+                    <h5>Services Section</h5>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.ServicesTitle)
+                        @Html.TextBoxFor(m => m.ServicesTitle, new { @class = "form-control" })
+                    </div>
+                    
+                    <!-- Service 1 -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Service1Title)
+                            @Html.TextBoxFor(m => m.Service1Title, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Service1Image)
+                            <input type="file" name="service1Image" class="form-control" />
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Service2Title)
+                            @Html.TextBoxFor(m => m.Service2Title, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Service2Image)
+                            <input type="file" name="service2Image" class="form-control" />
+                        </div>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Service3Title)
+                            @Html.TextBoxFor(m => m.Service3Title, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Service3Image)
+                            <input type="file" name="service3Image" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spotlight Section -->
+                <div class="form-group">
+                    <h5>Spotlight Section</h5>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.SpotlightTitle)
+                        @Html.TextBoxFor(m => m.SpotlightTitle, new { @class = "form-control" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.SpotlightSubtitle)
+                        @Html.TextAreaFor(m => m.SpotlightSubtitle, new { @class = "form-control" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.SpotlightImages)
+                        <input type="file" name="spotlightImages" multiple class="form-control" />
+                        
+                        @if (!string.IsNullOrEmpty(Model.SpotlightImages))
+                        {
+                            <div class="row mt-2">
+                                @foreach (var image in Model.SpotlightImages.Split(','))
+                                {
+                                    <div class="col-md-2 mb-2">
+                                        <img src="@Url.Content($"~/Content/landingPage/images/landing/{image}")" 
+                                             class="img-thumbnail" style="max-height: 100px" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Feature Image -->
+                <div class="form-group">
+                    <h5>Feature Image</h5>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.FeatureImage)
+                        <input type="file" name="featureImage" class="form-control" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2">Lưu thay đổi</button>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        // Xử lý kéo thả và click để upload
+        const uploadContainer = document.getElementById('imageUploadContainer');
+        const imageInput = document.getElementById('imageInput');
+
+        uploadContainer.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.add('border-primary');
+        });
+
+        uploadContainer.addEventListener('dragleave', () => {
+            uploadContainer.classList.remove('border-primary');
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.remove('border-primary');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleImageFile(file);
+            }
+        });
+
+        function previewFile() {
+            const file = imageInput.files[0];
+            if (file) {
+                handleImageFile(file);
+            }
+        }
+
+        function handleImageFile(file) {
+            const reader = new FileReader();
+            const previewImage = document.getElementById('previewImage');
+            const addButtonContainer = document.getElementById('addButtonContainer');
+            const placeholder = document.getElementById('placeholder');
+
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                addButtonContainer.style.display = 'block';
+                placeholder.style.display = 'none';
+            }
+
+            reader.readAsDataURL(file);
+        }
+
+        function addToTable() {
+            const previewImage = document.getElementById('previewImage');
+            const imageTableBody = document.querySelector('#imageTable tbody');
+            const addButtonContainer = document.getElementById('addButtonContainer');
+            const placeholder = document.getElementById('placeholder');
+
+            if (previewImage.src) {
+                imageCount++;
+                const row = document.createElement('tr');
+                row.setAttribute('draggable', 'true');
+                row.innerHTML = `
+                    <td>${imageCount}</td>
+                    <td class="py-1">
+                        <img src="${previewImage.src}" alt="image" style="max-width: 100px; max-height: 100px;" />
+                        <input type="hidden" name="SliderImages[]" value="${previewImage.src}" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                            <i class="mdi mdi-delete"></i> Xóa
+                        </button>
+                    </td>
+                `;
+
+                // Thêm các event listeners cho việc kéo thả
+                row.addEventListener('dragstart', onDragStart);
+                row.addEventListener('dragover', onDragOver);
+                row.addEventListener('drop', onDrop);
+
+                imageTableBody.appendChild(row);
+                updateTableOrder();
+
+                // Reset trạng thái upload
+                previewImage.src = '';
+                previewImage.style.display = 'none';
+                addButtonContainer.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+        }
+
+        function removeRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            updateTableOrder();
+        }
+
+        function updateTableOrder() {
+            const rows = document.querySelectorAll('#imageTable tbody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:first-child').textContent = index + 1;
+            });
+        }
+
+        // Xử lý kéo thả để sắp xếp lại thứ tự
+        function onDragStart(event) {
+            draggedRow = event.target.closest('tr');
+            event.dataTransfer.effectAllowed = 'move';
+            // Thêm class để style khi đang kéo
+            draggedRow.classList.add('dragging');
+        }
+
+        function onDragOver(event) {
+            event.preventDefault();
+            const targetRow = event.target.closest('tr');
+            if (targetRow && targetRow !== draggedRow) {
+                // Thêm visual feedback
+                const mouseY = event.clientY;
+                const targetRect = targetRow.getBoundingClientRect();
+                const threshold = targetRect.top + targetRect.height / 2;
+                
+                if (mouseY < threshold) {
+                    targetRow.parentNode.insertBefore(draggedRow, targetRow);
+                } else {
+                    targetRow.parentNode.insertBefore(draggedRow, targetRow.nextSibling);
+                }
+            }
+        }
+
+        function onDrop(event) {
+            event.preventDefault();
+            // Xóa class styling khi kết thúc kéo
+            draggedRow.classList.remove('dragging');
+            updateTableOrder();
+        }
+
+        function previewImage(input, previewElement) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    var preview = document.querySelector(previewElement);
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Thêm event listeners cho tất cả input file
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const previewImg = this.closest('.row').querySelector('img');
+                if (previewImg) {
+                    previewImage(this, '#' + previewImg.id);
+                }
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,93 @@
+﻿@model WebApplication.Models.SupportHistory
+
+
+
+<div class="row justify-content-center" id="requestForm">
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-info text-white text-center">
+                <h5 class="card-title my-2">Nhập Thông Tin Yêu Cầu</h5>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("createSupportRequest", "Default", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <!-- Success message -->
+                <div class="text-success text-center mb-3">
+                    @TempData["Message"]
+                </div>
+
+                    <!-- Row 1: hoten and maKH -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.hoten, "Tên sinh viên", new { @class = "form-label fw-semibold" })
+                                @Html.TextBoxFor(model => model.hoten, new { @class = "form-control", placeholder = "Nhập tên sinh viên", required = "required" })
+                                @Html.ValidationMessageFor(model => model.hoten, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.maKH, "MSSV", new { @class = "form-label fw-semibold" })
+                                @Html.TextBoxFor(model => model.maKH, new { @class = "form-control", placeholder = "Nhập mã số sinh viên", maxlength = 8, required = "required" })
+                                @Html.ValidationMessageFor(model => model.maKH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: sdt and email -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.sdt, "Số điện thoại", new { @class = "form-label fw-semibold" })
+                                @Html.TextBoxFor(model => model.sdt, new { @class = "form-control", placeholder = "Nhập số điện thoại", required = "required" })
+                                @Html.ValidationMessageFor(model => model.sdt, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.email, "Email", new { @class = "form-label fw-semibold" })
+                                @Html.TextBoxFor(model => model.email, new { @class = "form-control", placeholder = "Nhập email", required = "required" })
+                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: ngaygui and tenmay -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ngaygui, "Ngày gửi máy", new { @class = "form-label fw-semibold" })
+                                @Html.TextBoxFor(model => model.ngaygui, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                                @Html.ValidationMessageFor(model => model.ngaygui, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.tenmay, "Tên máy", new { @class = "form-label fw-semibold" })
+                                @Html.TextAreaFor(model => model.tenmay, new { @class = "form-control", rows = 2, placeholder = "Nhập tên hoặc loại laptop", required = "required" })
+                                @Html.ValidationMessageFor(model => model.tenmay, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Full width: loaihotro -->
+                    <div class="form-group mb-4">
+                        @Html.LabelFor(model => model.loaihotro, "Nội dung yêu cầu", new { @class = "form-label fw-semibold" })
+                        @Html.TextAreaFor(model => model.loaihotro, new { @class = "form-control", rows = 3, placeholder = "Nhập nội dung yêu cầu", required = "required" })
+                        @Html.ValidationMessageFor(model => model.loaihotro, "", new { @class = "text-danger" })
+                    </div>
+
+                    <!-- Submit button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-info px-5">Gửi yêu cầu</button>
+                    </div>
+                }
+
+                
+
+            </div>
+        </div>
+    </div>
+</div>

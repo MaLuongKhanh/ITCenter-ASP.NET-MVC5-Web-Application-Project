@@ -1,0 +1,172 @@
+﻿@model WebApplication.Models.Menu
+@{
+    ViewBag.Title = "Chi tiết Menu";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+@section _Header {
+    <style>
+        .card {
+            background: #191c24;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+
+        .card-title {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            background-color: #2A3038;
+            border-color: #2c2e33;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            background-color: #2A3038;
+            border-color: #010057;
+            color: #ffffff;
+            box-shadow: 0 0 0 0.2rem rgba(1, 0, 87, 0.25);
+        }
+
+        .control-label {
+            color: #ffffff;
+        }
+
+        .text-danger {
+            color: #fc424a !important;
+        }
+
+        .btn-primary {
+            background-color: #010057;
+            border-color: #010057;
+        }
+
+        .btn-primary:hover {
+            background-color: #000033;
+            border-color: #000033;
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            border-color: #2c2e33;
+        }
+
+        .btn-secondary:hover {
+            background-color: ##495057;
+            border-color: #2c2e33;
+        }
+
+        .dl-horizontal dt {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .dl-horizontal dd {
+            color: #6c7293;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: #010057;
+        }
+
+        a:hover {
+            color: #000033;
+            text-decoration: none;
+        }
+        .detail-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .detail-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-label {
+            color: #ffffff;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .detail-value {
+            color: #6c7293;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0.25rem;
+            min-height: 38px; /* Fixed height to maintain consistency */
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-value.empty {
+            color: #4b4b4b;
+            font-style: italic;
+        }
+    </style>
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Chi tiết Menu</h4>
+            <div class="detail-section">
+                <div class="detail-item">
+                    <span class="detail-label">Tên menu</span>
+                    <div class="detail-value">@Html.DisplayFor(model => model.tenmenu)</div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Icon</span>
+                    <div class="detail-value">
+                        @if (!string.IsNullOrEmpty(Model.icon))
+                        {
+                            <div class="d-flex align-items-center">
+                                <i class="@Model.icon mr-2" style="font-size: 24px;"></i>
+                                <span>@Model.icon</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Không có icon</span>
+                        }
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Link</span>
+                    <div class="detail-value">@Html.DisplayFor(model => model.link)</div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Meta</span>
+                    <div class="detail-value">@Html.DisplayFor(model => model.meta)</div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Hiển thị</span>
+                    <div class="detail-value">@Html.DisplayFor(model => model.hide)</div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Thứ tự</span>
+                    <div class="detail-value">@Html.DisplayFor(model => model.order)</div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Ngày cập nhật cuối</span>
+                    <div class="detail-value">@Html.DisplayFor(model => model.datebegin)</div>
+                </div>
+            </div>
+            <div class="mt-4">
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.menu_id }, new { @class = "btn btn-primary mr-2" })
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+</div>

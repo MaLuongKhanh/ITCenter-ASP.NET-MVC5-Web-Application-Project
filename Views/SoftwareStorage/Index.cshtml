@@ -1,0 +1,238 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+
+<style>
+    .preview-item {
+        transition: background-color 0.3s;
+    }
+
+    .preview-item:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .action-buttons {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+        gap: 5px;
+    }
+
+    .preview-item:hover .action-buttons {
+        display: flex;
+    }
+
+    .btn-icon {
+        padding: 5px;
+        border-radius: 50%;
+        background: transparent;
+        border: none;
+    }
+
+    .btn-icon:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thêm mới</h4>
+                    <br>
+                    <form class="forms-sample" id="softwareForm">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label for="softwareName">Tên phần mềm</label>
+                            <input type="text" class="form-control" id="softwareName" required>
+                            <div class="invalid-feedback">Vui lòng nhập tên phần mềm</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareDescription">Mô tả</label>
+                            <input type="text" class="form-control" id="softwareDescription" required>
+                            <div class="invalid-feedback">Vui lòng nhập mô tả</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareLink">Link</label>
+                            <input type="text" class="form-control" id="softwareLink" required>
+                            <div class="invalid-feedback">Vui lòng nhập link</div>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between">
+                        <h4 class="card-title mb-1">Danh sách phần mềm</h4>
+                        <button type="button" class="btn btn-link text-right">Xem tất cả</button>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="preview-list">
+                                @{ Html.RenderAction("getSoftwareList", "SoftwareStorage");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let isEditing = false;
+        let editingId = null;
+
+        // Edit software
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.edit-software')) {
+                const btn = e.target.closest('.edit-software');
+                editingId = btn.dataset.id;
+                isEditing = true;
+
+                // Populate form
+                document.getElementById('softwareName').value = btn.dataset.name;
+                document.getElementById('softwareDescription').value = btn.dataset.desc;
+                document.getElementById('softwareLink').value = btn.dataset.link;
+
+                // Change button text
+                const submitBtn = document.querySelector('#softwareForm button[type="submit"]');
+                submitBtn.textContent = 'Cập nhật';
+            }
+        });
+
+        // Handle form submit for both create and edit
+        document.getElementById('softwareForm').onsubmit = function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                ten: document.getElementById('softwareName').value,
+                mota: document.getElementById('softwareDescription').value,
+                link: document.getElementById('softwareLink').value
+            };
+
+            if (isEditing) {
+                formData.software_id = editingId;
+            }
+
+            const url = isEditing ? 
+                '@Url.Action("Edit", "SoftwareStorage")' : 
+                '@Url.Action("Create", "SoftwareStorage")';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    refreshSoftwareList();
+                    resetForm();
+                    showAlert(isEditing ? 'Cập nhật phần mềm thành công!' : 'Thêm phần mềm thành công!', 'success');
+                } else {
+                    showAlert(data.message || 'Có lỗi xảy ra!', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Có lỗi xảy ra!', 'danger');
+            });
+        };
+
+        // Helper function to reset form
+        function resetForm() {
+            document.getElementById('softwareForm').reset();
+            isEditing = false;
+            editingId = null;
+            const submitBtn = document.querySelector('#softwareForm button[type="submit"]');
+            submitBtn.textContent = 'Thêm';
+        }
+
+        function refreshSoftwareList() {
+            fetch('@Url.Action("getSoftwareList", "SoftwareStorage")')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.querySelector('.preview-list').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Có lỗi xảy ra khi tải lại danh sách!', 'danger');
+                });
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.role = 'alert';
+            alertDiv.innerHTML = `
+                ${message}
+            `;
+            
+            const cardBody = document.querySelector('.card-body');
+            cardBody.insertBefore(alertDiv, cardBody.firstChild);
+
+            // Auto dismiss after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Delete software
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.delete-software')) {
+                if (confirm('Bạn có chắc chắn muốn xóa phần mềm này?')) {
+                    const btn = e.target.closest('.delete-software');
+                    const id = btn.dataset.id;
+
+                    fetch('@Url.Action("Delete", "SoftwareStorage")', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            '__RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                        },
+                        body: JSON.stringify({ id: id })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            refreshSoftwareList();
+                            showAlert('Xóa phần mềm thành công!', 'success');
+                        } else {
+                            showAlert(data.message || 'Có lỗi xảy ra!', 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showAlert('Có lỗi xảy ra!', 'danger');
+                    });
+                }
+            }
+        });
+    </script>
+}
+
+
+
+
+

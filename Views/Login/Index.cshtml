@@ -1,0 +1,64 @@
+﻿@model WebApplication.Models.Account
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="card col-lg-4 mx-auto" style="border-radius: 5%;">
+    <div class="card-body px-5 py-5">
+        <h3 class="card-title text-left mb-3">Đăng nhập</h3>
+
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            if (!ViewData.ModelState.IsValid)
+            {
+                <div id="errorAlert" class="alert alert-danger">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                </div>
+            }
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.username, "Tài khoản *")
+                    @Html.EditorFor(m => m.username, new { htmlAttributes = new { @class = "form-control p_input" } })
+                    @Html.ValidationMessageFor(m => m.username, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.password, "Mật khẩu *")
+                    @Html.PasswordFor(m => m.password, new { @class = "form-control p_input" })
+                    @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group d-flex align-items-center justify-content-between">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="RememberMe"> Nhớ mật khẩu 
+                        </label>
+                    </div>
+                    <a href="/quen-mat-khau" class="forgot-pass">Quên mật khẩu</a>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-info btn-block enter-btn">Đăng nhập</button>
+                </div>
+            </div>
+        }
+
+        <p class="sign-up">Chưa có tài khoản? <a href="/dang-ky"> Đăng ký ngay</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>// Hide the error alert after 3 seconds
+        setTimeout(function() {
+            var errorAlert = document.getElementById("errorAlert");
+            if (errorAlert) {
+                errorAlert.style.display = "none";
+            }
+        }, 3000);</script>
+}

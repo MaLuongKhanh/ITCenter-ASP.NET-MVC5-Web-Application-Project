@@ -1,0 +1,53 @@
+@model WebApplication.Models.Footer
+@{
+    ViewBag.Title = "Chỉnh sửa Footer";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Chỉnh sửa Footer</h4>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.footer_id)
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.contentleft, "Nội dung bên trái", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.contentleft, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.contentleft, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.contentright, "Nội dung bên phải", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.contentright, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.contentright, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.link, "Link", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.link, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.link, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.hide, "Hiển thị", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.hide)
+                    @Html.ValidationMessageFor(model => model.hide, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.order, "Thứ tự", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.order, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.order, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary mr-2">Lưu thay đổi</button>
+                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

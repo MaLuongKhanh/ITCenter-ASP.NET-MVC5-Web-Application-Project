@@ -1,0 +1,43 @@
+@model WebApplication.Models.Footer
+@{
+    ViewBag.Title = "Sửa Footer";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Sửa Footer</h4>
+            
+            @using (Html.BeginForm("EditFooter", "HeaderFooter", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.footer_id)
+
+                <div class="form-group">
+                    <label>Nội dung trái</label>
+                    @Html.TextAreaFor(m => m.contentleft, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Nội dung phải</label>
+                    @Html.TextAreaFor(m => m.contentright, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>Link</label>
+                    @Html.TextBoxFor(m => m.link, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        @Html.CheckBoxFor(m => m.hide ?? false) Hiển thị
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-light" })
+            }
+        </div>
+    </div>
+</div> 

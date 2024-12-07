@@ -1,0 +1,12 @@
+@model WebApplication.Models.Header
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>@ViewBag.Title - @(Model?.websiteName ?? "IT-Center Admin")</title>
+
+<!-- plugins:css -->
+<link rel="stylesheet" href="~/Areas/admin/Content/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="~/Areas/admin/Content/vendors/css/vendor.bundle.base.css">
+<!-- Layout styles -->
+<link rel="stylesheet" href="~/Areas/admin/Content/css/style.css">
+<!-- Favicon -->
+<link rel="shortcut icon" href="~/Areas/admin/Content/images/@(Model?.favicon ?? "ITCenterLogoMini.png")" />

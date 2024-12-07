@@ -1,0 +1,111 @@
+﻿@model Tuple<IEnumerable<WebApplication.Models.HumanResource>, IEnumerable<WebApplication.Models.SupportHistory>, IEnumerable<WebApplication.Models.SupportHistory>>
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        @* Statistics Section - Based on getStatistic.cshtml *@
+        <div class="row">
+            <div class="col-sm-4 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Kỹ thuật viên</h5>
+                        <div class="row">
+                            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                    <div class="col-sm-6 col-md-4 col-lg-3" style="display: flex; align-items: center;">
+                                        <i class="text-success mdi mdi-checkbox-blank-circle"></i>
+                                        <h2 class="mb-0 pl-3">@Model.Item1.Count()</h2>
+                                    </div>
+                                </div>
+                                <h6 class="text-muted font-weight-normal">@Model.Item1.Count() tổng số kỹ thuật viên</h6>
+                            </div>
+                            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                                <i class="icon-lg mdi mdi-account-multiple-outline text-primary ml-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Yêu cầu hỗ trợ</h5>
+                        <div class="row">
+                            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                                <div class="col-sm-6 col-md-4 col-lg-3" style="display: flex; align-items: center;">
+                                    <i class="text-danger mdi mdi-comment"></i>
+                                    <h2 class="mb-0 pl-3">@Model.Item2.Count()</h2>
+                                </div>
+                                <h6 class="text-muted font-weight-normal">Số yêu cầu hôm nay</h6>
+                            </div>
+                            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                                <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Máy đã sửa</h5>
+                        <div class="row">
+                            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                                <div class="col-sm-6 col-md-4 col-lg-3" style="display: flex; align-items: center;">
+                                    <i class="text-success mdi mdi-account-check mdi-24px"></i>
+                                    <h2 class="mb-0 pl-3">@Model.Item3.Count()</h2>
+                                </div>
+                                <h6 class="text-muted font-weight-normal">Đã bàn giao máy</h6>
+                            </div>
+                            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                                <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* KTV List Section - Based on getKTVList.cshtml *@
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Danh sách Kỹ thuật viên</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Họ tên</th>
+                                <th>MSSV</th>
+                                <th>Trạng thái</th>
+                                <th>Tiến độ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var KTV in Model.Item1.Where(s => s.hide == true))
+                            {
+                                <tr>
+                                    <td class="py-1">
+                                        <img src="@(string.IsNullOrEmpty(KTV.avatar) ? "/Content/assets/images/faces-clipart/default-avatar.jpg" : "/Content/assets/images/faces-clipart/" + KTV.avatar)" alt="avatar">
+                                    </td>
+                                    <td>@KTV.hoten</td>
+                                    <td>@KTV.mssv</td>
+                                    <td class="text-success">@KTV.trangthai</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 50%"
+                                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">10%</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

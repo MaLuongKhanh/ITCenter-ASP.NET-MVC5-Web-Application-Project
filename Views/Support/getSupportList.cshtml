@@ -1,0 +1,118 @@
+﻿@model IEnumerable<WebApplication.Models.SupportHistory>
+@foreach (var row in Model)
+{
+<tr>
+    <td>
+        <div class="form-check form-check-muted m-0">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input checkbox-item" 
+                        value="@row.support_id" onclick="toggleButtons()"
+                        style="opacity: 1; visibility: visible;">
+            </label>
+        </div>
+    </td>
+    <td>
+        @row.hoten
+    </td>
+    <td> @row.maKH </td>
+    <td> @row.loaihotro </td>
+    <td> @row.ngaygui</td>
+    <td>
+        @switch (row.trangthai)
+        {
+            case "chờ":
+                @: <div class="badge badge-outline-secondary">Chờ</div>
+                break;
+            case "tiếp nhận":
+                @: <div class="badge badge-outline-warning">Tiếp nhận</div>
+                break;
+            case "từ chối":
+                @: <div class="badge badge-outline-danger">Từ chối</div>
+                break;
+            case "bàn giao máy":
+                @: <div class="badge badge-outline-success">Bàn giao máy</div>
+                break;
+            default:
+                @: <div class="badge badge-outline-danger">Error</div>
+                break;
+
+        }
+    </td>
+
+    <td>
+        @if (row.trangthai == "chờ")
+        {
+            <button type="button" class="btn btn-success btn-rounded" 
+                    onclick="updateStatus(@row.support_id, 'tiếp nhận')">
+                <i class="mdi mdi-check" style="margin-right: 0;"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-rounded" style="margin-left: 10px;"
+                    onclick="updateStatus(@row.support_id, 'từ chối')">
+                <i class="mdi mdi-close" style="margin-right: 0;"></i>
+            </button>
+        }
+        else if (row.trangthai == "tiếp nhận" && row.mssv == Session["MSSV"]?.ToString())
+        {
+            <button type="button" class="btn btn-primary btn-icon-text"
+                    onclick="updateStatus(@row.support_id, 'bàn giao máy')">
+                <i class="mdi mdi-laptop btn-icon-prepend"></i> Bàn giao máy
+            </button>
+        }
+        else
+        {
+        }
+    </td>
+ 
+    <td>
+        <div class="management-buttons">
+            <a href="@Url.Action("Edit", "Support", new { id = row.support_id })" 
+               class="btn btn-warning btn-icon-text">
+                <i class="mdi mdi-grease-pencil"></i>
+            </a>
+        </div>
+    </td>
+
+</tr>
+}
+
+<tr>
+    <td colspan="8">
+        <div class="d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    @{
+                        var currentPage = ViewBag.CurrentPage;
+                        var totalPages = ViewBag.TotalPages;
+                        var startPage = Math.Max(1, currentPage - 2);
+                        var endPage = Math.Min(totalPages, startPage + 4);
+                        
+                        if (currentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)" onclick="loadPage(1)">
+                                    <i class="mdi mdi-chevron-double-left"></i>
+                                </a>
+                            </li>
+                        }
+
+                        for (int i = startPage; i <= endPage; i++)
+                        {
+                            <li class="page-item @(i == currentPage ? "active" : "")">
+                                <a class="page-link" href="javascript:void(0)" onclick="loadPage(@i)">@i</a>
+                            </li>
+                        }
+
+                        if (currentPage < totalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)" onclick="loadPage(@totalPages)">
+                                    <i class="mdi mdi-chevron-double-right"></i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    </td>
+</tr>

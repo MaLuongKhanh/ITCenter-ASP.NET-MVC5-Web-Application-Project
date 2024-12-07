@@ -1,0 +1,392 @@
+@model IEnumerable<WebApplication.Models.News>
+@{
+    ViewBag.Title = "Quản lý tin tức";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+@section _Header {
+    <style>
+        .preview-item {
+            padding: 1rem;
+            border-bottom: 1px solid #2c2e33;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-item:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(5px);
+        }
+
+        .preview-item.active {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .preview-thumbnail {
+            margin-right: 1rem;
+        }
+
+        .preview-thumbnail img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .preview-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .preview-subject {
+            color: #ffffff;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+            margin-bottom: 0.25rem;
+        }
+
+        .text-muted {
+            color: #6c7293 !important;
+            font-size: 0.75rem;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #010057;
+            border-color: #010057;
+            color: #fff;
+        }
+
+        .pagination .page-link {
+            background-color: transparent;
+            border-color: #2c2e33;
+            color: #6c7293;
+        }
+
+        .pagination .page-link:hover {
+            border-color: #010057;
+            color: #fff;
+        }
+
+        .pagination .page-link:focus {
+            box-shadow: 0 0 0 0.2rem rgba(1, 0, 87, 0.25);
+            background-color: #010057;
+            color: #fff;
+            border-color: #010057;
+        }
+        .ck-toolbar {
+            background-color: #2A3038 !important;
+            border: 1px solid #6c7293 !important;
+        }
+
+        .ck.ck-toolbar__items .ck-button {
+            color: #6c7293 !important;
+        }
+
+        .preview-subject {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .alert-success {
+            background-color: #00d25b;
+            color: #ffffff;
+            border: 1px solid #00bd52;
+        }
+
+        .alert-danger {
+            background-color: #fc424a;
+            color: #ffffff;
+            border: 1px solid #fc2832;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-4 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0">Danh sách tin tức</h5>
+                    <button class="btn btn-success btn-sm" onclick="createNewPost()">
+                        <i class="mdi mdi-plus"></i> Thêm mới
+                    </button>
+                </div>
+                <div class="search-container">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" 
+                               placeholder="Tìm kiếm tin tức...">
+                        <div class="input-group-append">
+                            <button class="btn btn-info" type="button">
+                                <i class="mdi mdi-magnify"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-list">
+                    @{ Html.RenderAction("getNewsList", "News"); }
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <ul class="pagination"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 grid-margin stretch-card">
+        <div class="card">
+            <div id="newsFormContainer">
+                @{ Html.RenderAction("NewsForm", "News", new { id = (int?)null }); }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xác nhận xóa -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận xóa</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa tin tức này?</p>
+                <p><strong>Tiêu đề:</strong> <span id="deleteItemTitle"></span></p>
+                <p><strong>Ngày tạo:</strong> <span id="deleteItemDate"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Areas/admin/Content/ckfinder/ckfinder.js"></script>
+    <script src="~/Areas/admin/Content/ckeditor/ckeditor.js"></script>
+    <script>
+        // Khai báo các biến và hàm là global
+        window.currentPage = 1;
+        window.deleteItemId = null;
+        window.editor = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPage(1);
+            initCKEditor();
+            handleFileUpload();
+        });
+        // Đăng ký các hàm là global
+        window.loadNewsForm = function(id) {
+            fetch(`/admin/News/NewsForm/${id || ''}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('newsFormContainer').innerHTML = html;
+                    initCKEditor();
+                    handleFileUpload();
+                    
+                    document.querySelectorAll('.preview-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    if (id) {
+                        document.querySelector(`.preview-item[onclick="loadNewsForm(${id})"]`)?.classList.add('active');
+                    }
+                });
+        };
+
+        window.createNewPost = function() {
+            document.getElementById('newsFormContainer').innerHTML = '';
+            loadNewsForm();
+            document.querySelectorAll('.preview-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        };
+
+        window.showDeleteModal = function(id, title, date) {
+            window.deleteItemId = id;
+            document.getElementById('deleteItemTitle').textContent = decodeHtmlEntities(title);
+            document.getElementById('deleteItemDate').textContent = date;
+            $('#deleteModal').modal('show');
+        };
+
+        // Thêm hàm để decode HTML entities
+        function decodeHtmlEntities(text) {
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = text;
+            return textarea.value;
+        }
+
+        // Thêm xử lý sự kiện xóa
+        document.getElementById('confirmDelete').addEventListener('click', function() {
+            if (window.deleteItemId) {
+                fetch(`/admin/News/Delete/${window.deleteItemId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        $('#deleteModal').modal('hide');
+                        loadPage(currentPage);
+                        showNotification('Xóa tin tức thành công');
+                    } else {
+                        showNotification(data.message || 'Có lỗi xảy ra khi xóa tin tức', false);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra khi xóa tin tức', false);
+                });
+            }
+        });
+
+        // Các hàm helper
+        function initCKEditor() {
+            if (editor) {
+                editor.destroy();
+            }
+            editor = CKEDITOR.replace('editor', {
+                height: '600px',
+                filebrowserBrowseUrl: '/Areas/admin/Content/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl: '/Areas/admin/Content/ckfinder/ckfinder.html?type=Images',
+                filebrowserUploadUrl: '/Areas/admin/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl: '/Areas/admin/Content/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images',
+                customConfig: '/Areas/admin/Content/ckeditor/config.js'
+            });
+        }
+
+        function handleFileUpload() {
+            const fileUpload = document.getElementById('thumbnailFile');
+            const fileInfo = document.querySelector('.file-upload-info');
+            const browseButton = document.querySelector('.file-upload-browse');
+
+            if (browseButton) {
+                browseButton.addEventListener('click', function() {
+                    fileUpload.click();
+                });
+            }
+
+            if (fileUpload) {
+                fileUpload.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        fileInfo.value = file.name;
+                        
+                        if (document.querySelector('.thumbnail-preview')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.querySelector('.thumbnail-preview').src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Các event handlers
+        $(function () {
+            $("#ten").keyup(function () {
+                var text = $.trim($(this).val().toLowerCase());
+                var text_create = text.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
+                    .replace(/\ /g, '-')
+                    .replace(/đ/g, "d")
+                    .replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
+                    .replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
+                    .replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o")
+                    .replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e")
+                    .replace(/ì|í|ị|ỉ|ĩ/g, "i");
+                $('#meta').val(text_create);
+            }).keyup();
+        });
+
+        // Thêm các hàm tìm kiếm và phân trang
+        function loadPage(page) {
+            fetch(`/admin/News/getNewsList?page=${page}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.querySelector('.preview-list').innerHTML = html;
+                    currentPage = page;
+                    updatePagination();
+                });
+        }
+
+        function updatePagination() {
+            const paginationContainer = document.querySelector('.pagination');
+            const totalPages = parseInt(document.querySelector('[data-total-pages]').dataset.totalPages);
+            const currentPage = parseInt(document.querySelector('[data-current-page]').dataset.currentPage);
+
+            let paginationHtml = '';
+            
+            // Previous button
+            paginationHtml += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="loadPage(${currentPage - 1}); return false;">
+                        <i class="mdi mdi-chevron-left"></i>
+                    </a>
+                </li>`;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    paginationHtml += `
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" onclick="loadPage(${i}); return false;">${i}</a>
+                        </li>`;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+
+            // Next button
+            paginationHtml += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="loadPage(${currentPage + 1}); return false;">
+                        <i class="mdi mdi-chevron-right"></i>
+                    </a>
+                </li>`;
+
+            paginationContainer.innerHTML = paginationHtml;
+        }
+
+        // Xử lý tìm kiếm với debounce
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchTerm = e.target.value;
+                fetch(`/admin/News/getNewsList?search=${encodeURIComponent(searchTerm)}&page=1`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('.preview-list').innerHTML = html;
+                        currentPage = 1;
+                        updatePagination();
+                    });
+            }, 300);
+        });
+
+        // Khởi tạo khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPage(1);
+            handleFileUpload();
+        });
+    </script>
+}

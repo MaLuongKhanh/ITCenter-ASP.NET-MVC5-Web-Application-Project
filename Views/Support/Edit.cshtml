@@ -1,0 +1,68 @@
+@model WebApplication.Models.SupportHistory
+
+@{
+    ViewBag.Title = "Chỉnh sửa yêu cầu hỗ trợ";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Chỉnh sửa yêu cầu hỗ trợ</h4>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.support_id)
+                        @Html.HiddenFor(m => m.trangthai)
+                        @Html.HiddenFor(m => m.ngaygui)
+                        @Html.HiddenFor(m => m.hide)
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.hoten, "Họ và tên")
+                            @Html.TextBoxFor(m => m.hoten, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.hoten, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.maKH, "Mã sinh viên")
+                            @Html.TextBoxFor(m => m.maKH, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.maKH, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.tenmay, "Tên máy")
+                            @Html.TextBoxFor(m => m.tenmay, new { @class = "form-control", placeholder = "Nhập tên máy" })
+                            @Html.ValidationMessageFor(m => m.tenmay, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.loaihotro, "Loại hỗ trợ")
+                            @Html.TextBoxFor(m => m.loaihotro, new { @class = "form-control", placeholder = "Nhập loại hỗ trợ" })
+                            @Html.ValidationMessageFor(m => m.loaihotro, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.sdt, "Số điện thoại")
+                            @Html.TextBoxFor(m => m.sdt, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
+                            @Html.ValidationMessageFor(m => m.sdt, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.email, "Email")
+                            @Html.TextBoxFor(m => m.email, new { @class = "form-control", placeholder = "Nhập email" })
+                            @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

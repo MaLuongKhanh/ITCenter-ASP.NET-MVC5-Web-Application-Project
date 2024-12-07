@@ -1,0 +1,112 @@
+﻿@model IEnumerable<WebApplication.Models.HumanResource>
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Danh sách điểm danh</h4>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Message"]
+                        </div>
+                    }
+                    @using (Html.BeginForm("Index", "Attendance", FormMethod.Post, new { @class = "d-flex flex-column align-items-end mb-4" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+
+                    <div class="d-flex align-items-end w-100 mb-4">
+                        <div class="form-group mb-0 mr-3" style="flex-basis: 150px;">
+                            <label for="date" class="mr-2">Ngày trực</label>
+                            @Html.TextBox("ngaytruc", null, new { @class = "form-control", @type = "date", style = "width: 100%;" })
+                        </div>
+
+                        <div class="form-group mb-0 mr-3" style="flex-basis: 150px;">
+                            <label for="shift" class="mr-2">Ca trực</label>
+                            <div class="dropdown" style="width: 100%;">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
+                                        id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Chọn ca trực
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
+                                    <a class="dropdown-item" href="#" onclick="selectShift(1)">Ca 1</a>
+                                    <a class="dropdown-item" href="#" onclick="selectShift(2)">Ca 2</a>
+                                    <a class="dropdown-item" href="#" onclick="selectShift(3)">Ca 3</a>
+                                    <a class="dropdown-item" href="#" onclick="selectShift(4)">Ca 4</a>
+                                </div>
+                                <!-- Hidden field to store selected shift value -->
+                                @Html.Hidden("catruc", "", new { id = "selectedShift" })
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary ml-auto" style="align-self: flex-end;">
+                            Điểm danh
+                        </button>
+                    </div>
+                        
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>MSSV</th>
+                                        <th>Họ và tên</th>
+                                        <th>Có mặt</th>
+                                        <th>Trễ</th>
+                                        <th>Vắng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var KTV in Model.Where(s => s.hide == true))
+                                    {
+                                        <tr>
+                                            <td>@KTV.mssv</td>
+                                            <td>@KTV.hoten</td>
+                                            <td>
+                                                <div class="form-check form-check-info">
+                                                    <label class="form-check-label">
+                                                        @Html.RadioButton("attendance[" + KTV.mssv + "]", "có", new { @class = "form-check-input" }) Có
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-warning">
+                                                    <label class="form-check-label">
+                                                        @Html.RadioButton("attendance[" + KTV.mssv + "]", "trễ", new { @class = "form-check-input" }) Trễ
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-danger">
+                                                    <label class="form-check-label">
+                                                        @Html.RadioButton("attendance[" + KTV.mssv + "]", "vắng", new { @class = "form-check-input" }) Vắng
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function selectShift(shiftValue) {
+        document.getElementById("selectedShift").value = shiftValue;
+        document.getElementById("dropdownMenuOutlineButton2").innerText = "Ca " + shiftValue;
+    }
+</script>

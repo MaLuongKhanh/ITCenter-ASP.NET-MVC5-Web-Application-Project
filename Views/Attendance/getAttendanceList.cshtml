@@ -1,0 +1,32 @@
+﻿@model IEnumerable<WebApplication.Models.HumanResource>
+@foreach (var KTV in Model.Where(s => s.hide == true))
+{
+    <tr>
+        <td>@KTV.mssv</td>
+        <td>@KTV.hoten</td>
+        <td>
+            <div class="form-check form-check-info">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input"
+                           name="check-attend-12345678" id="attend" value="attend"> Có
+                </label>
+            </div>
+        </td>
+        <td>
+            <div class="form-check form-check-warning">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input"
+                           name="check-attend-12345678" id="late" value="late"> Trễ
+                </label>
+            </div>
+        </td>
+        <td>
+            <div class="form-check form-check-danger">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input"
+                           name="check-attend-12345678" id="absence" value="absence"> Vắng
+                </label>
+            </div>
+        </td>
+    </tr>
+}

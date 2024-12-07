@@ -1,0 +1,329 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+<style>
+    .form-check-input {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .form-check-label {
+        position: relative;
+        margin-bottom: 0;
+    }
+    
+    .form-check.form-check-muted {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Pagination custom styles */
+    .pagination .page-item.active .page-link {
+        background-color: #010057;
+        border-color: #010057;
+        color: #fff;
+    }
+
+    .pagination .page-link {
+        background-color: transparent;
+        border-color: #2c2e33;
+        color: #6c7293;
+    }
+
+    .pagination .page-link:hover {
+        border-color: #010057;
+        color: #fff;
+    }
+
+    .pagination .page-link:focus {
+        box-shadow: 0 0 0 0.2rem rgba(1, 0, 87, 0.25);
+        background-color: #010057;
+        color: #fff;
+        border-color: #010057;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="row ">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <h4 class="text-center">Dánh sách yêu cầu hỗ trợ</h4>
+                    </h4>
+                    <br>
+                    <div class="form-group col-12 mx-auto d-flex justify-content-center">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control" style="color: white;" 
+                                   onkeyup="filterTable()"
+                                   placeholder="Tìm kiếm theo tên, MSSV, loại hỗ trợ...">
+                        </div>
+                    </div>
+                    <div class="input-group-prepend">
+                        <div class="template-demo d-flex justify-content-between w-100">
+                            
+                            <!-- Delete all button -->
+                            <div class="delete-btn-container">
+                                <button type="button" class="btn btn-danger btn-icon-text" style="display: none;"
+                                        id="deleteButton" data-toggle="modal" data-target="#deleteModal">
+                                    <i class="mdi mdi-delete" style="margin-right: 0"></i> Xóa tất cả
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="form-check form-check-muted m-0">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" id="selectAll"
+                                                       onclick="toggleCheckboxes(this)">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        Họ và tên
+                                        <i class="mdi mdi-sort-ascending sort-icon" style="cursor: pointer;"
+                                           onclick="sortTable(1, this)"></i>
+                                    </th>
+                                    <th>
+                                        ID
+                                        <i class="mdi mdi-sort-ascending sort-icon" style="cursor: pointer;"
+                                           onclick="sortTable(2, this)"></i>
+                                    </th>
+                                    <th> Hỗ trợ </th>
+                                    <th>
+                                        Ngày gửi
+                                        <i class="mdi mdi-sort-ascending sort-icon" style="cursor: pointer;"
+                                           onclick="sortTable(4, this)"></i>
+                                    </th>
+                                    <th> Trạng thái </th>
+                                    <th> Thao tác </th>
+                                    <th> Chỉnh sửa </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @{ Html.RenderAction("getSupportList", "Support");}
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title text-danger" id="deleteModalLabel">
+                            <i class="mdi mdi-alert-circle-outline"
+                               style="font-size: xx-large;"></i>
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc muốn xóa tất cả yêu cầu đã chọn?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-danger" id="confirmDelete">Đồng ý</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleButtons() {
+        const checkboxes = document.querySelectorAll('.checkbox-item');
+        const deleteButton = document.getElementById('deleteButton');
+        const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        
+        deleteButton.style.display = isChecked ? 'inline-block' : 'none';
+        
+        const selectAllCheckbox = document.getElementById('selectAll');
+        selectAllCheckbox.checked = isChecked && Array.from(checkboxes).every(checkbox => checkbox.checked);
+    }
+
+    function toggleCheckboxes(source) {
+        const checkboxes = document.querySelectorAll('.checkbox-item');
+        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+        toggleButtons();
+    }
+
+    function filterTable() {
+        const searchTerm = document.getElementById('searchInput').value;
+        loadPage(1); 
+    }
+
+    function loadPage(page) {
+        const searchTerm = document.getElementById('searchInput').value;
+        
+        fetch(`${window.location.origin}/Support/getSupportList?searchTerm=${encodeURIComponent(searchTerm)}&page=${page}`)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('tbody').innerHTML = html;
+                initializeCheckboxes();
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Add debounce function
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Initialize event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initial load
+        loadPage(1);
+        initializeCheckboxes();
+        
+        // Add debounced search handler
+        const debouncedFilter = debounce(filterTable, 300);
+        document.getElementById('searchInput').addEventListener('input', debouncedFilter);
+    });
+
+    function initializeCheckboxes() {
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        checkboxes.forEach(checkbox => {
+            checkbox.classList.add('form-check-input');
+            checkbox.closest('label').classList.add('form-check-label');
+            checkbox.closest('div').classList.add('form-check', 'form-check-muted', 'm-0');
+        });
+    }
+
+    // Update the delete functionality to use fetch
+    document.getElementById('confirmDelete')?.addEventListener('click', function() {
+        const selectedIds = Array.from(document.querySelectorAll('.checkbox-item:checked'))
+            .map(checkbox => parseInt(checkbox.value));
+
+        if (selectedIds.length === 0) {
+            alert('Vui lòng chọn ít nhất một mục để xóa!');
+            return;
+        }
+
+        fetch('@Url.Action("DeleteSelected", "Support")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add anti-forgery token if needed
+                '__RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+            },
+            body: JSON.stringify({ ids: selectedIds })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+            const deleteModal = document.getElementById('deleteModal');
+            const modalInstance = bootstrap.Modal.getInstance(deleteModal);
+            modalInstance.hide();
+        })
+        .catch(() => {
+            alert('Có lỗi xảy ra khi xóa!');
+            const deleteModal = document.getElementById('deleteModal');
+            const modalInstance = bootstrap.Modal.getInstance(deleteModal);
+            modalInstance.hide();
+        });
+    });
+
+    // Update status function to use fetch
+    function updateStatus(id, status) {
+        fetch('@Url.Action("UpdateStatus", "Support")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add anti-forgery token if needed
+                '__RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+            },
+            body: JSON.stringify({ id: id, status: status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(() => {
+            alert('Có lỗi xảy ra khi cập nhật trạng thái!');
+        });
+    }
+
+    function sortTable(columnIndex, element) {
+        const table = document.querySelector("table tbody");
+        const rows = Array.from(table.querySelectorAll("tr"));
+        let ascending = element.classList.contains('mdi-sort-ascending');
+
+        // Sắp xếp hàng
+        const sortedRows = rows.sort((a, b) => {
+            const cellA = a.querySelectorAll("td")[columnIndex];
+            const cellB = b.querySelectorAll("td")[columnIndex];
+
+            // Kiểm tra xem cột có tồn tại không
+            if (!cellA || !cellB) {
+                return 0;
+            }
+
+            const cellAText = cellA.innerText.toLowerCase();
+            const cellBText = cellB.innerText.toLowerCase();
+
+            if (ascending) {
+                if (cellAText < cellBText) return -1;
+                if (cellAText > cellBText) return 1;
+                return 0;
+            } else {
+                if (cellAText > cellBText) return -1;
+                if (cellAText < cellBText) return 1;
+                return 0;
+            }
+        });
+
+        // Xóa các hàng hiện tại
+        while (table.firstChild) {
+            table.removeChild(table.firstChild);
+        }
+
+        // Thêm lại các hàng đã được sắp xếp
+        sortedRows.forEach(row => table.appendChild(row));
+
+        // Cập nhật biểu tượng sắp xếp
+        const allSortIcons = document.querySelectorAll('.sort-icon');
+        allSortIcons.forEach(icon => {
+            icon.classList.remove('mdi-sort-descending');
+            icon.classList.add('mdi-sort-ascending');
+        });
+
+        if (ascending) {
+            element.classList.remove('mdi-sort-ascending');
+            element.classList.add('mdi-sort-descending');
+        } else {
+            element.classList.remove('mdi-sort-descending');
+            element.classList.add('mdi-sort-ascending');
+        }
+    }
+
+</script>
+
+

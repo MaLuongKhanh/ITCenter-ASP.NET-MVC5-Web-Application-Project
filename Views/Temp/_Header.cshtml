@@ -1,0 +1,14 @@
+@{
+    var header = ViewBag.Header as WebApplication.Models.Header;
+}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>@ViewBag.Title - @(header?.websiteName ?? "IT-Center")</title>
+
+<!-- plugins:css -->
+<link rel="stylesheet" href="~/Content/assets/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="~/Content/assets/vendors/css/vendor.bundle.base.css">
+<!-- Layout styles -->
+<link rel="stylesheet" href="~/Content/assets/css/style.css">
+<!-- Favicon -->
+<link rel="shortcut icon" href="~/Content/assets/images/@(header?.favicon ?? "ITCenterLogoMini.png")" />

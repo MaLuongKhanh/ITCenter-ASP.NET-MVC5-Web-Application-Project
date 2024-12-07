@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thành viên ưu tú</h4>
+                    <p class="card-description">
+                        Kỹ thuật viên hỗ trợ nhiều máy nhất
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Kỹ thuật viên</th>
+                                    <th>ID</th>
+                                    <th>Số máy đã hỗ trợ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ Html.RenderAction("getKTVMostSupport", "Achievement");}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thành viên chăm chỉ</h4>
+                    <p class="card-description">
+                        Kỹ thuật viên đi trực nhiều nhất
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Kỹ thuật viên</th>
+                                    <th>ID</th>
+                                    <th>Số ngày trực</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ Html.RenderAction("getKTVMostAttendance", "Achievement");}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

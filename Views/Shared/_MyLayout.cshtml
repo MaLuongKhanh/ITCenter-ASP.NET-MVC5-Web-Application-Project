@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @{Html.RenderAction("getHeader", "Temp");}
+</head>
+
+<body>
+    @{
+        string role = Session["Role"]?.ToString().ToLower();
+        if (string.IsNullOrEmpty(role))
+        {
+            Response.Redirect("/");
+            return;
+        }
+        
+        switch (role)
+        {
+            case "admin":
+                Response.Redirect("/admin/");
+                return;
+            case "member":
+            case "lead":
+                // Cho phép tiếp tục xem trang
+                break;
+            default:
+                Response.Redirect("/");
+                return;
+        }
+    }
+    <div class="container-scroller">
+        <!-- partial:partials/_sidebar.html -->
+        @{Html.RenderAction("getMenu", "Temp");}
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_navbar.html -->
+            @{Html.RenderAction("getNavbar", "Temp");}
+            <!-- partial -->
+            <div class="main-panel">
+                @RenderBody()
+                <div class="row justify-content-center">
+                    <div id="logoutModal" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header justify-content-center">
+                                    <h5 class="modal-title text-danger" id="notifyModalLabel">
+                                        <i class="mdi mdi-alert-circle-outline" style="font-size: xx-large;"></i>
+                                    </h5>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn muốn đăng xuất khỏi IT-Center?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <a href="@Url.Action("Logout", "Login")" class="btn btn-primary">Đăng xuất</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                @{Html.RenderAction("getFooter", "Temp");}
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/Content/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="~/Content/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/Content/assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="~/Content/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="~/Content/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/Content/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/Scripts/js/off-canvas.js"></script>
+    <script src="~/Scripts/js/hoverable-collapse.js"></script>
+    <script src="~/Scripts/js/misc.js"></script>
+    <script src="~/Scripts/js/settings.js"></script>
+    <script src="~/Scripts/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="~/Scripts/js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+    <script>
+        document.getElementById('createButton').addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành động mặc định
+            const targetElement = document.getElementById('requestForm'); // Tham chiếu đến form
+            if (!targetElement) {
+                window.location.href = "../../trang-chu#scrollToForm";
+            }
+            targetElement.scrollIntoView({ behavior: 'smooth' }); // Cuộn xuống vị trí của form
+        });
+
+        window.onload = function () {
+            // Kiểm tra nếu URL có chứa anchor #scrollToForm
+            if (window.location.hash === '#scrollToForm') {
+                const targetElement = document.getElementById('requestForm'); // Tham chiếu đến form
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' }); // Cuộn xuống vị trí của form
+                }
+            }
+        };
+
+        // Lấy các phần tử từ HTML
+            var modal = document.getElementById("customModal");
+            var openModalBtn = document.getElementById("openModalBtn");
+            var closeModalBtn = document.getElementById("closeModalBtn");
+            var acceptModalBtn = document.getElementById("acceptModalBtn");
+
+            // Mở modal khi nhấn vào nút "Đăng xuất"
+      openModalBtn.onclick = function() {
+                modal.style.display = "block";  // Hiển thị modal
+            }
+
+            // Đóng modal khi nhấn vào nút "Đóng"
+      closeModalBtn.onclick = function() {
+                modal.style.display = "none";  // Ẩn modal
+            }
+
+      acceptModalBtn.onclick = function () {
+                modal.style.display = "none";  // Ẩn modal
+            window.location.href = "/dang-nhap";
+          }
+
+          // Đóng modal khi nhấn ra ngoài modal (vùng mờ nền)
+      window.onclick = function(event) {
+        if (event.target == modal) {
+                modal.style.display = "none";  // Ẩn modal
+            }
+          }
+    
+    </script>
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function() {
+            $('#logoutBtn').click(function() {
+                $('#logoutModal').modal('show');
+            });
+        });
+    </script>
+</body>
+
+</html>

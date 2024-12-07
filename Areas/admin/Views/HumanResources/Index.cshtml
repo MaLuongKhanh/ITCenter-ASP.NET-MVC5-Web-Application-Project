@@ -1,0 +1,249 @@
+@model IEnumerable<WebApplication.Areas.admin.Models.HumanResourceViewModel>
+@{
+    ViewBag.Title = "Quản lý nhân sự";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+@section _Header {
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .preview-subject:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .preview-subject {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            color: white;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #010057;
+            border-color: #010057;
+            color: #fff;
+        }
+
+        .pagination .page-link {
+            background-color: transparent;
+            border-color: #2c2e33;
+            color: #6c7293;
+        }
+
+        .pagination .page-link:hover {
+            border-color: #010057;
+            color: #fff;
+        }
+
+        .pagination .page-link:focus {
+            box-shadow: 0 0 0 0.2rem rgba(1, 0, 87, 0.25);
+            background-color: #010057;
+            color: #fff;
+            border-color: #010057;
+        }
+    </style>
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Danh sách kỹ thuật viên</h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ảnh đại diện</th>
+                            <th>Họ tên</th>
+                            <th>MSSV</th>
+                            <th>Trạng thái</th>
+                            <th>Hoạt động</th>
+                            <th>Vai trò</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="py-1">
+                                    <img src="@(string.IsNullOrEmpty(item.Avatar) ? "/Content/assets/images/faces-clipart/default-avatar.jpg" : "/Content/assets/images/faces-clipart/" + item.Avatar)" alt="@item.Hoten">
+                                </td>
+                                <td>@item.Hoten</td>
+                                <td>@item.Mssv</td>
+                                <td class="@(item.Trangthai == "Đang hoạt động" ? "text-success" : 
+                                           item.Trangthai == "Không hoạt động" ? "text-danger" : "text-warning")">
+                                    @item.Trangthai
+                                </td>
+                                <td>
+                                    <label class="switch">
+                                        <input type="checkbox" checked="@(item.Trangthai == "Đang hoạt động")" 
+                                               data-mssv="@item.Mssv" class="status-toggle">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" 
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @(item.Role ?? "Chọn...")
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#" onclick="updateRole('@item.Mssv', 'admin')">Admin</a>
+                                            <a class="dropdown-item" href="#" onclick="updateRole('@item.Mssv', 'lead')">Lead</a>
+                                            <a class="dropdown-item" href="#" onclick="updateRole('@item.Mssv', 'member')">Member</a>
+                                            <a class="dropdown-item" href="#" onclick="updateRole('@item.Mssv', 'customer')">Customer</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <nav>
+                        <ul class="pagination">
+                            @{
+                                var currentPage = ViewBag.CurrentPage;
+                                var totalPages = ViewBag.TotalPages;
+                                var startPage = Math.Max(1, currentPage - 2);
+                                var endPage = Math.Min(totalPages, startPage + 4);
+                                
+                                if (currentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", new { page = 1 })">
+                                            <i class="mdi mdi-chevron-double-left"></i>
+                                        </a>
+                                    </li>
+                                }
+
+                                for (int i = startPage; i <= endPage; i++)
+                                {
+                                    <li class="page-item @(i == currentPage ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                                    </li>
+                                }
+
+                                if (currentPage < totalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", new { page = totalPages })">
+                                            <i class="mdi mdi-chevron-double-right"></i>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section _Footer {
+    <script>
+        $(document).ready(function() {
+            $('.status-toggle').change(function() {
+                var mssv = $(this).data('mssv');
+                var isActive = $(this).prop('checked');
+                
+                $.ajax({
+                    url: '@Url.Action("ToggleStatus", "HumanResources", new { area = "admin" })',
+                    type: 'POST',
+                    data: { mssv: mssv, isActive: isActive },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra!');
+                    }
+                });
+            });
+        });
+
+        function updateRole(mssv, role) {
+            $.ajax({
+                url: '@Url.Action("UpdateRole", "HumanResources", new { area = "admin" })',
+                type: 'POST',
+                data: { mssv: mssv, role: role },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra!');
+                    }
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra!');
+                }
+            });
+        }
+    </script>
+} 

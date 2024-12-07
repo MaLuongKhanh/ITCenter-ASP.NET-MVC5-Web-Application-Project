@@ -1,0 +1,32 @@
+@model IEnumerable<WebApplication.Models.News>
+@foreach (var item in Model)
+{
+    <div class="preview-item" onclick="loadNewsForm(@item.news_id)">
+        <div class="preview-thumbnail">
+            @if (!string.IsNullOrEmpty(item.thumbnail))
+            {
+                <img src="/Areas/admin/Content/upload/img/news/@item.thumbnail" 
+                     alt="Thumbnail" 
+                     style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;"/>
+            }
+            else
+            {
+                <div class="preview-icon bg-info">
+                    <i class="mdi mdi-file-document"></i>
+                </div>
+            }
+        </div>
+        <div class="preview-item-content d-sm-flex flex-grow">
+            <div class="flex-grow">
+                <h6 class="preview-subject">@item.ten</h6>
+                <p class="text-muted mb-0">@item.datebegin.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    var currentPage = ViewBag.CurrentPage;
+    var totalPages = ViewBag.TotalPages;
+}
+<div data-total-pages="@totalPages" data-current-page="@currentPage"></div>

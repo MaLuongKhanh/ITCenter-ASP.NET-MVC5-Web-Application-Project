@@ -1,0 +1,82 @@
+﻿@model IEnumerable<WebApplication.Models.Menu>
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+        <a class="sidebar-brand brand-logo" href="/trang-chu">
+            <img src="../../Content/assets/images/ITCenterLogo.png" alt="logo" style="width: 250%; height: 250%" />
+        </a>
+        <a class="sidebar-brand brand-logo-mini" href="/trang-chu">
+            <img src="../../Content/assets/images/ITCenterLogoMini.png" alt="logo" style="width: 70%; height: 70%" />
+        </a>
+    </div>
+    <ul class="nav">
+        <li class="nav-item profile">
+            <div class="profile-desc">
+                <div class="profile-pic">
+                    <div class="count-indicator">
+                        <img class="img-xs rounded-circle" src="@ViewBag.UserAvatar" alt="">
+                        <span class="count bg-success"></span>
+                    </div>
+                    <div class="profile-name">
+                        <h5 class="mb-0 font-weight-normal">@ViewBag.UserName</h5>
+                        <span>@ViewBag.UserRole</span>
+                    </div>
+                </div>
+                <a href="#" id="profile-dropdown" data-toggle="dropdown">
+                    <i class="mdi mdi-dots-vertical"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
+                     aria-labelledby="profile-dropdown">
+                    <a href="/quan-li-trang-ca-nhan" class="dropdown-item preview-item">
+                        <div class="preview-thumbnail">
+                            <div class="preview-icon bg-dark rounded-circle">
+                                <i class="mdi mdi-folder-account text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="preview-item-content">
+                            <p class="preview-subject ellipsis mb-1 text-small">Quản lý trang cá nhân</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/doi-mat-khau" class="dropdown-item preview-item">
+                        <div class="preview-thumbnail">
+                            <div class="preview-icon bg-dark rounded-circle">
+                                <i class="mdi mdi-onepassword text-info"></i>
+                            </div>
+                        </div>
+                        <div class="preview-item-content">
+                            <p class="preview-subject ellipsis mb-1 text-small">Đổi mật khẩu</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <div>
+                        <a href="javascript:void(0);" class="dropdown-item preview-item" data-toggle="modal" data-target="#logoutModal">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-dark rounded-circle">
+                                    <i class="mdi mdi-logout text-danger"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <p class="preview-subject ellipsis mb-1 text-small">Đăng xuất</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item nav-category">
+            <span class="nav-link">Điều hướng</span>
+        </li>
+        @foreach (var menu in Model)
+        {
+            <li class="nav-item menu-items">
+                <a class="nav-link" href="/@menu.meta">
+                    <span class="menu-icon">
+                        <i class="@menu.icon"></i>
+                    </span>
+                    <span class="menu-title">@menu.tenmenu</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

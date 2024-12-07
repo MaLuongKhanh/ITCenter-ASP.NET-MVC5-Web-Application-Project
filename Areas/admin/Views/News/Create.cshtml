@@ -1,0 +1,144 @@
+@model WebApplication.Models.News
+@{
+    ViewBag.Title = "Thêm tin tức mới";
+    Layout = "~/Areas/admin/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <h4 class="card-title">Thêm tin tức mới</h4>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Create", "News", FormMethod.Post, new { id = "newsForm", enctype = "multipart/form-data", onsubmit = "return handleSubmit(event)" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.Label("Tiêu đề", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ten, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ten, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Ảnh đại diện", htmlAttributes: new { @class = "control-label" })
+                            <div class="input-group">
+                                <input type="file" name="thumbnailFile" id="thumbnailFile" class="file-upload-default" accept="image/*" />
+                                @Html.TextBoxFor(m => m.thumbnail, new { @class = "form-control file-upload-info", @readonly = "readonly" })
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button">Chọn ảnh</button>
+                                </span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model?.thumbnail))
+                                {
+                                    <div class="mt-2">
+                                        <img src="~/Areas/admin/Content/upload/img/news/@Model.thumbnail" alt="Thumbnail" class="thumbnail-preview" style="max-width: 200px;" />
+                                    </div>
+                                }
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Nội dung", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.content, new { @id = "editor" })
+                                @Html.ValidationMessageFor(model => model.content, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Hiển thị", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.hide)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Thứ tự", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.order, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.order, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-success">Lưu</button>
+                                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Areas/admin/Content/ckfinder/ckfinder.js"></script>
+    <script src="~/Areas/admin/Content/ckeditor/ckeditor.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Khởi tạo CKEditor
+            var editor = CKEDITOR.replace('editor', {
+                height: '400px',
+                customConfig: '/Areas/admin/Content/ckeditor/config.js'
+            });
+
+            // Xử lý file upload
+            const fileUpload = document.getElementById('thumbnailFile');
+            const fileInfo = document.querySelector('.file-upload-info');
+            const browseButton = document.querySelector('.file-upload-browse');
+            const preview = document.querySelector('.thumbnail-preview');
+
+            browseButton.addEventListener('click', function(e) {
+                fileUpload.click();
+            });
+
+            fileUpload.addEventListener('change', function(event) {
+                console.log('File input changed');
+                const file = event.target.files[0];
+                if (file) {
+                    fileInfo.value = file.name;
+                    preview.style.display = 'block';
+                    if (preview) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            preview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+
+            // Xử lý submit form
+            window.handleSubmit = function(e) {
+                e.preventDefault();
+                var formData = new FormData(e.target);
+                formData.append('content', editor.getData());
+
+                fetch('/admin/News/Create', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/admin/News';
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi lưu tin tức');
+                    }
+                })
+                .catch(error => {
+                    alert('Có lỗi xảy ra khi lưu tin tức');
+                });
+
+                return false;
+            };
+        });
+    </script>
+} 
