@@ -3029,6 +3029,7 @@
     <Content Include="Content\landingPage\lib\skrollr\src\skrollr.js" />
     <Content Include="Content\landingPage\lib\smoothscroll.js" />
     <Content Include="Content\landingPage\lib\wow\dist\wow.js" />
+    <Content Include="script.sql" />
     <Content Include="Scripts\js\ace.js" />
     <Content Include="Scripts\js\alerts.js" />
     <Content Include="Scripts\js\avgrund.js" />
