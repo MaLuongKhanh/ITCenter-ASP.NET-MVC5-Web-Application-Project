@@ -17,31 +17,41 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="form-horizontal">
-                        <div class="form-group">
-                            @Html.Label("Tiêu đề", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                        <div class="form-group row">
+                            <!-- Tiêu đề -->
+                            <div class="col-md-3">
+                                @Html.Label("Tiêu đề", htmlAttributes: new { @class = "control-label" })
                                 @Html.EditorFor(model => model.ten, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ten, "", new { @class = "text-danger" })
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.Label("Ảnh đại diện", htmlAttributes: new { @class = "control-label" })
-                            <div class="input-group">
-                                <input type="file" name="thumbnailFile" id="thumbnailFile" class="file-upload-default" accept="image/*" />
-                                @Html.TextBoxFor(m => m.thumbnail, new { @class = "form-control file-upload-info", @readonly = "readonly" })
-                                <span class="input-group-append">
-                                    <button class="file-upload-browse btn btn-primary" type="button">Chọn ảnh</button>
-                                </span>
+                            <!-- Ảnh đại diện -->
+                            <div class="col-md-3">
+                                @Html.Label("Ảnh đại diện", htmlAttributes: new { @class = "control-label" })
+                                <div class="input-group">
+                                    <input type="file" name="thumbnailFile" id="thumbnailFile" class="file-upload-default" accept="image/*" />
+                                    @Html.TextBoxFor(m => m.thumbnail, new { @class = "form-control file-upload-info", @readonly = "readonly" })
+                                    <span class="input-group-append">
+                                        <button class="file-upload-browse btn btn-primary" type="button">Chọn ảnh</button>
+                                    </span>
+                                </div>
                             </div>
-                            @if (!string.IsNullOrEmpty(Model?.thumbnail))
-                                {
-                                    <div class="mt-2">
-                                        <img src="~/Areas/admin/Content/upload/img/news/@Model.thumbnail" alt="Thumbnail" class="thumbnail-preview" style="max-width: 200px;" />
-                                    </div>
-                                }
+
+                            <!-- Thứ tự -->
+                            <div class="col-md-2">
+                                @Html.Label("Thứ tự", htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.order, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.order, "", new { @class = "text-danger" })
+                            </div>
+
+                            <!-- Hiển thị -->
+                            <div class="col-md-2">
+                                @Html.Label("Hiển thị", htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.hide, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
                         </div>
 
+                        <!-- Nội dung -->
                         <div class="form-group">
                             @Html.Label("Nội dung", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -50,21 +60,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.Label("Hiển thị", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.hide)
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Thứ tự", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.order, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.order, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
+                        <!-- Nút hành động -->
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <button type="submit" class="btn btn-success">Lưu</button>
@@ -72,6 +68,7 @@
                             </div>
                         </div>
                     </div>
+
                 }
             </div>
         </div>

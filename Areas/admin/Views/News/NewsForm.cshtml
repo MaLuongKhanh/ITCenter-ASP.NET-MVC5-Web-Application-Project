@@ -11,27 +11,42 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.news_id)
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.ten, "Tiêu đề")
-            @Html.TextBoxFor(m => m.ten, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ten)
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.thumbnail, "Ảnh đại diện")
-            <div class="input-group">
-                <input type="file" name="thumbnailFile" id="thumbnailFile" class="file-upload-default" accept="image/*" />
-                @Html.TextBoxFor(m => m.thumbnail, new { @class = "form-control file-upload-info", @readonly = "readonly" })
-                <span class="input-group-append">
-                    <button class="file-upload-browse btn btn-primary" type="button">Chọn ảnh</button>
-                </span>
+        <div class="form-group d-flex align-items-center">
+            <div class="mr-3">
+                @Html.LabelFor(m => m.ten, "Tiêu đề")
+                @Html.TextBoxFor(m => m.ten, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ten)
             </div>
-            @if (!string.IsNullOrEmpty(Model?.thumbnail))
-            {
-                <div class="mt-2">
-                    <img src="~/Areas/admin/Content/upload/img/news/@Model.thumbnail" alt="Thumbnail" class="thumbnail-preview" style="max-width: 200px;" />
+
+            <div class="mr-3">
+                @Html.LabelFor(m => m.thumbnail, "Ảnh đại diện")
+                <div class="input-group">
+                    <input type="file" name="thumbnailFile" id="thumbnailFile" class="file-upload-default" accept="image/*" />
+                    @Html.TextBoxFor(m => m.thumbnail, new { @class = "form-control file-upload-info", @readonly = "readonly" })
+                    <span class="input-group-append">
+                        <button class="file-upload-browse btn btn-primary" type="button">Chọn ảnh</button>
+                    </span>
                 </div>
-            }
+                @if (!string.IsNullOrEmpty(Model?.thumbnail))
+                {
+                    <div class="mt-2">
+                        <img src="~/Areas/admin/Content/upload/img/news/@Model.thumbnail" alt="Thumbnail" class="thumbnail-preview" style="max-width: 200px;" />
+                    </div>
+                }
+            </div>
+
+            <div class="mr-3">
+                @Html.LabelFor(m => m.order, "Thứ tự")
+                @Html.TextBoxFor(m => m.order, new { @class = "form-control" })
+            </div>
+
+            <div class="mr-3">
+                @Html.LabelFor(m => m.hide, "Hiển thị")
+                <div class="checkbox">
+                    @Html.EditorFor(m => m.hide)
+                    @Html.ValidationMessageFor(m => m.hide)
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -39,23 +54,11 @@
             @Html.TextAreaFor(m => m.content, new { @class = "form-control", @id = "editor" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.hide, "Hiển thị")
-            <div class="checkbox">
-                @Html.EditorFor(m => m.hide)
-                @Html.ValidationMessageFor(m => m.hide)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.order, "Thứ tự")
-            @Html.TextBoxFor(m => m.order, new { @class = "form-control" })
-        </div>
 
         <button type="submit" class="btn btn-success mr-2">Lưu</button>
         if (Model != null && Model.news_id > 0)
         {
-            <button type="button" class="btn btn-danger" 
+            <button type="button" class="btn btn-danger"
                     onclick="showDeleteModal(@Model.news_id, '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.ten))', '@Model.datebegin.ToString("dd/MM/yyyy")')">
                 Xóa
             </button>

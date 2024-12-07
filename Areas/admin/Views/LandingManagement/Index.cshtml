@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Quản lý nội dung Landing Page</h4>
-            
+
             @using (Html.BeginForm("SaveContent", "LandingManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
@@ -16,70 +16,88 @@
 
                 <!-- Header Section -->
                 <div class="form-group">
-                    <h5>Header Section</h5>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.HeaderTitle)
-                        @Html.TextBoxFor(m => m.HeaderTitle, new { @class = "form-control" })
-                    </div>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.HeaderSubtitle)
-                        @Html.TextAreaFor(m => m.HeaderSubtitle, new { @class = "form-control" })
-                    </div>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.HeaderBackground)
-                        <div class="row">
-                            <div class="col-md-9">
+                    <h5 class="text-white mb-4">Header Section</h5>
+                    <div class="d-flex align-items-start">
+                        <!-- Cột trái: HeaderTitle và HeaderSubtitle -->
+                        <div class="flex-grow-1" style="max-width: 60%; margin-right: 15px;">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.HeaderTitle, new { @class = "text-white" })
+                                @Html.TextBoxFor(m => m.HeaderTitle, new { @class = "form-control", style = "width: 100%;" })
+                            </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.HeaderSubtitle, new { @class = "text-white" })
+                                @Html.TextAreaFor(m => m.HeaderSubtitle, new { @class = "form-control", style = "width: 100%; resize: none;" })
+                            </div>
+                        </div>
+
+                        <!-- Cột phải: HeaderBackground -->
+                        <div style="max-width: 40%;">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.HeaderBackground, new { @class = "text-white" })
                                 <input type="file" name="headerBgImage" class="form-control" onchange="previewImage(this, '#headerPreview')" />
                             </div>
-                            <div class="col-md-3">
-                                <img id="headerPreview" src="@Url.Content(!string.IsNullOrEmpty(Model.HeaderBackground) ? $"~/Content/landingPage/images/landing/{Model.HeaderBackground}" : "")" 
-                                     class="img-thumbnail" style="max-height: 100px; @(string.IsNullOrEmpty(Model.HeaderBackground) ? "display:none" : "")" />
+                            <div class="text-center">
+                                <img id="headerPreview"
+                                     src="@Url.Content(!string.IsNullOrEmpty(Model.HeaderBackground) ? $"~/Content/landingPage/images/landing/{Model.HeaderBackground}" : "")"
+                                     class="img-thumbnail"
+                                     style="max-height: 100px; @(string.IsNullOrEmpty(Model.HeaderBackground) ? "display:none" : "")" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Banner Image -->
-                <div class="form-group">
-                    <h5>Banner Image</h5>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.BannerImage)
-                        <div class="row">
-                            <div class="col-md-9">
-                                <input type="file" name="bannerImage" class="form-control" />
+
+                <div class="d-flex align-items-start">
+                    <!-- Banner Section -->
+                    <div class="flex-grow-1" style="max-width: 50%; margin-right: 15px;">
+                        <div class="form-group">
+                            <h5 class="text-white">Banner Image</h5>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.BannerImage, new { @class = "text-white" })
+                                <div class="d-flex flex-column align-items-start">
+                                    <!-- Input chọn file -->
+                                    <input type="file" name="bannerImage" class="form-control" />
+
+                                    <!-- Hình ảnh hiển thị dưới input -->
+                                    <div class="mt-4 text-center">
+                                        @if (!string.IsNullOrEmpty(Model.BannerImage))
+                                        {
+                                            <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.BannerImage}")"
+                                                 class="img-thumbnail"
+                                                 style="max-height: 100px;" />
+                                        }
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                @if (!string.IsNullOrEmpty(Model.BannerImage))
-                                {
-                                    <img src="@Url.Content($"~/Content/landingPage/images/landing/{Model.BannerImage}")" 
-                                         class="img-thumbnail" style="max-height: 100px" />
-                                }
+                        </div>
+                    </div>
+
+                    <!-- About Section -->
+                    <div class="flex-grow-1" style="max-width: 50%;">
+                        <div class="form-group">
+                            <h5 class="text-white">About Section</h5>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.AboutTitle, new { @class = "text-white" })
+                                @Html.TextBoxFor(m => m.AboutTitle, new { @class = "form-control" })
+                            </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.AboutContent, new { @class = "text-white" })
+                                @Html.TextAreaFor(m => m.AboutContent, new { @class = "form-control", id = "aboutEditor", style = "height: 100px;" })
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- About Section -->
-                <div class="form-group">
-                    <h5>About Section</h5>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.AboutTitle)
-                        @Html.TextBoxFor(m => m.AboutTitle, new { @class = "form-control" })
-                    </div>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.AboutContent)
-                        @Html.TextAreaFor(m => m.AboutContent, new { @class = "form-control", id = "aboutEditor" })
-                    </div>
-                </div>
 
                 <!-- Services Section -->
                 <div class="form-group">
                     <h5>Services Section</h5>
                     <div class="mb-3">
                         @Html.LabelFor(m => m.ServicesTitle)
-                        @Html.TextBoxFor(m => m.ServicesTitle, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.ServicesTitle, new { @class = "form-control", style = "width: 200px;" })
                     </div>
-                    
+
+
                     <!-- Service 1 -->
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -120,43 +138,54 @@
                 <!-- Spotlight Section -->
                 <div class="form-group">
                     <h5>Spotlight Section</h5>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.SpotlightTitle)
-                        @Html.TextBoxFor(m => m.SpotlightTitle, new { @class = "form-control" })
-                    </div>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.SpotlightSubtitle)
-                        @Html.TextAreaFor(m => m.SpotlightSubtitle, new { @class = "form-control" })
-                    </div>
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.SpotlightImages)
-                        <input type="file" name="spotlightImages" multiple class="form-control" />
-                        
-                        @if (!string.IsNullOrEmpty(Model.SpotlightImages))
-                        {
-                            <div class="row mt-2">
-                                @foreach (var image in Model.SpotlightImages.Split(','))
+                    <div class="row">
+                        <!-- Phần bên trái: Spotlight Title và Subtitle -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.SpotlightTitle)
+                                @Html.TextBoxFor(m => m.SpotlightTitle, new { @class = "form-control" })
+                            </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.SpotlightSubtitle)
+                                @Html.TextAreaFor(m => m.SpotlightSubtitle, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <!-- Phần bên phải: Input ảnh -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.SpotlightImages)
+                                <input type="file" name="spotlightImages" multiple class="form-control" />
+
+                                @if (!string.IsNullOrEmpty(Model.SpotlightImages))
                                 {
-                                    <div class="col-md-2 mb-2">
-                                        <img src="@Url.Content($"~/Content/landingPage/images/landing/{image}")" 
-                                             class="img-thumbnail" style="max-height: 100px" />
+                                    <div class="d-flex flex-nowrap mt-2" style="overflow-x: auto; gap: 10px;">
+                                        @foreach (var image in Model.SpotlightImages.Split(','))
+                                        {
+                                            <div>
+                                                <img src="@Url.Content($"~/Content/landingPage/images/landing/{image}")"
+                                                     class="img-thumbnail" style="max-height: 100px; width: auto;" />
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
 
                 <!-- Feature Image -->
                 <div class="form-group">
                     <h5>Feature Image</h5>
-                    <div class="mb-3">
+                    <div class="mb-3" style="max-width: 300px;">
                         @Html.LabelFor(m => m.FeatureImage)
-                        <input type="file" name="featureImage" class="form-control" />
+                        <input type="file" name="featureImage" class="form-control" style="width: 100%;" />
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary mr-2">Lưu thay đổi</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
             }
         </div>
     </div>
