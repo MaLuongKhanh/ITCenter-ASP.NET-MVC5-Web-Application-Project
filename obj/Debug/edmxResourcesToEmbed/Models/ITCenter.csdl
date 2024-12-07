@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ITCenterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ITCenterEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Attendances" EntityType="ITCenterModel.Attendance" />
+    <EntitySet Name="Footers" EntityType="ITCenterModel.Footer" />
+    <EntitySet Name="HumanResources" EntityType="ITCenterModel.HumanResource" />
+    <EntitySet Name="Menus" EntityType="ITCenterModel.Menu" />
+    <EntitySet Name="Navbars" EntityType="ITCenterModel.Navbar" />
+    <EntitySet Name="News" EntityType="ITCenterModel.News" />
+    <EntitySet Name="Schedules" EntityType="ITCenterModel.Schedule" />
+    <EntitySet Name="ScheduleDetails" EntityType="ITCenterModel.ScheduleDetail" />
+    <EntitySet Name="SoftwareStorages" EntityType="ITCenterModel.SoftwareStorage" />
+    <AssociationSet Name="FK_Attendance_HumanResource" Association="ITCenterModel.FK_Attendance_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResources" />
+      <End Role="Attendance" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Schedule_HumanResource" Association="ITCenterModel.FK_Schedule_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResources" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SoftwareStorage_HumanResource" Association="ITCenterModel.FK_SoftwareStorage_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResources" />
+      <End Role="SoftwareStorage" EntitySet="SoftwareStorages" />
+    </AssociationSet>
+    <EntitySet Name="Accounts" EntityType="ITCenterModel.Account" />
+    <EntitySet Name="SupportHistories" EntityType="ITCenterModel.SupportHistory" />
+    <AssociationSet Name="FK_SupportHistory_HumanResource" Association="ITCenterModel.FK_SupportHistory_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResources" />
+      <End Role="SupportHistory" EntitySet="SupportHistories" />
+    </AssociationSet>
+    <EntitySet Name="Todoes" EntityType="ITCenterModel.Todo" />
+    <EntitySet Name="LandingContents" EntityType="ITCenterModel.LandingContent" />
+    <EntitySet Name="Headers" EntityType="ITCenterModel.Header" />
+  </EntityContainer>
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="attendance_id" />
+    </Key>
+    <Property Name="attendance_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="diemdanh" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ngaytruc" Type="DateTime" Precision="3" />
+    <Property Name="catruc" Type="Int32" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_Attendance_HumanResource" FromRole="Attendance" ToRole="HumanResource" />
+  </EntityType>
+  <EntityType Name="Footer">
+    <Key>
+      <PropertyRef Name="footer_id" />
+    </Key>
+    <Property Name="footer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="contentleft" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="contentright" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="order" Type="Int32" />
+    <Property Name="datebegin" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HumanResource">
+    <Key>
+      <PropertyRef Name="mssv" />
+    </Key>
+    <Property Name="mssv" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="hoten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="avatar" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="trangthai" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="ngaysinh" Type="DateTime" Precision="0" />
+    <Property Name="facebookURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="githubURL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="sodienthoai" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Attendances" Relationship="ITCenterModel.FK_Attendance_HumanResource" FromRole="HumanResource" ToRole="Attendance" />
+    <NavigationProperty Name="Schedules" Relationship="ITCenterModel.FK_Schedule_HumanResource" FromRole="HumanResource" ToRole="Schedule" />
+    <NavigationProperty Name="SoftwareStorages" Relationship="ITCenterModel.FK_SoftwareStorage_HumanResource" FromRole="HumanResource" ToRole="SoftwareStorage" />
+    <NavigationProperty Name="SupportHistories" Relationship="ITCenterModel.FK_SupportHistory_HumanResource" FromRole="HumanResource" ToRole="SupportHistory" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="menu_id" />
+    </Key>
+    <Property Name="menu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tenmenu" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="order" Type="Int32" />
+    <Property Name="datebegin" Type="DateTime" Precision="3" />
+    <Property Name="icon" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Navbar">
+    <Key>
+      <PropertyRef Name="navbar_id" />
+    </Key>
+    <Property Name="navbar_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tenbutton" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="order" Type="Int32" />
+    <Property Name="datebegin" Type="DateTime" Precision="3" />
+    <Property Name="icon" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="news_id" />
+    </Key>
+    <Property Name="news_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ten" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="thumbnail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="order" Type="Int32" />
+    <Property Name="datebegin" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="schedule_id" />
+    </Key>
+    <Property Name="schedule_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ngaytrongtuan" Type="Int32" />
+    <Property Name="catruc" Type="Int32" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="ngaydangki" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_Schedule_HumanResource" FromRole="Schedule" ToRole="HumanResource" />
+  </EntityType>
+  <EntityType Name="ScheduleDetail">
+    <Key>
+      <PropertyRef Name="scheduledetail_id" />
+    </Key>
+    <Property Name="scheduledetail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catruc" Type="Int32" />
+    <Property Name="giobatdau" Type="Time" Precision="7" />
+    <Property Name="gioketthuc" Type="Time" Precision="7" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="order" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SoftwareStorage">
+    <Key>
+      <PropertyRef Name="software_id" />
+    </Key>
+    <Property Name="software_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mota" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ngaydang" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_SoftwareStorage_HumanResource" FromRole="SoftwareStorage" ToRole="HumanResource" />
+  </EntityType>
+  <Association Name="FK_Attendance_HumanResource">
+    <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+    <End Type="ITCenterModel.Attendance" Role="Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Schedule_HumanResource">
+    <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+    <End Type="ITCenterModel.Schedule" Role="Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SoftwareStorage_HumanResource">
+    <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+    <End Type="ITCenterModel.SoftwareStorage" Role="SoftwareStorage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="SoftwareStorage">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="account_id" />
+    </Key>
+    <Property Name="account_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="datebegin" Type="DateTime" Precision="3" />
+    <Property Name="PasswordResetToken" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="TokenExpiration" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="SupportHistory">
+    <Key>
+      <PropertyRef Name="support_id" />
+    </Key>
+    <Property Name="support_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="hoten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="maKH" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="tenmay" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="loaihotro" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ngaygui" Type="DateTime" Precision="3" />
+    <Property Name="trangthai" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hide" Type="Boolean" />
+    <Property Name="mssv" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="sdt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="HumanResource" Relationship="ITCenterModel.FK_SupportHistory_HumanResource" FromRole="SupportHistory" ToRole="HumanResource" />
+  </EntityType>
+  <Association Name="FK_SupportHistory_HumanResource">
+    <End Type="ITCenterModel.HumanResource" Role="HumanResource" Multiplicity="0..1" />
+    <End Type="ITCenterModel.SupportHistory" Role="SupportHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="SupportHistory">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Todo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Content" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsCompleted" Type="Boolean" />
+    <Property Name="MSSV" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="CreatAt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="LandingContent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="HeaderTitle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="HeaderSubtitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="HeaderBackground" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="BannerImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AboutTitle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AboutContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ServicesTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Service1Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Service1Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Service2Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Service2Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Service3Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Service3Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SpotlightTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SpotlightSubtitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="SpotlightImages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FeatureImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Header">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="websiteName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="logo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="favicon" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

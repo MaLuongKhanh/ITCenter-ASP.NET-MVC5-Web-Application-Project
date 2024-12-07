@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ITCenterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="account_id" />
+    </Key>
+    <Property Name="account_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="username" Type="nvarchar" MaxLength="255" />
+    <Property Name="password" Type="nvarchar" MaxLength="255" />
+    <Property Name="role" Type="nvarchar" MaxLength="255" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="datebegin" Type="datetime" />
+    <Property Name="PasswordResetToken" Type="nvarchar" MaxLength="255" />
+    <Property Name="TokenExpiration" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="attendance_id" />
+    </Key>
+    <Property Name="attendance_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="diemdanh" Type="nvarchar" MaxLength="255" />
+    <Property Name="ngaytruc" Type="datetime" />
+    <Property Name="catruc" Type="int" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Footer">
+    <Key>
+      <PropertyRef Name="footer_id" />
+    </Key>
+    <Property Name="footer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contentleft" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="contentright" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="link" Type="nvarchar" MaxLength="255" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="order" Type="int" />
+    <Property Name="datebegin" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Headers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="websiteName" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="logo" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="favicon" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HumanResource">
+    <Key>
+      <PropertyRef Name="mssv" />
+    </Key>
+    <Property Name="mssv" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="hoten" Type="nvarchar" MaxLength="255" />
+    <Property Name="avatar" Type="nvarchar" MaxLength="255" />
+    <Property Name="trangthai" Type="nvarchar" MaxLength="255" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="ngaysinh" Type="date" />
+    <Property Name="facebookURL" Type="varchar" MaxLength="255" />
+    <Property Name="githubURL" Type="varchar" MaxLength="255" />
+    <Property Name="sodienthoai" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="LandingContent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HeaderTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="HeaderSubtitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="HeaderBackground" Type="nvarchar" MaxLength="200" />
+    <Property Name="BannerImage" Type="nvarchar" MaxLength="200" />
+    <Property Name="AboutTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="AboutContent" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ServicesTitle" Type="nvarchar" MaxLength="200" />
+    <Property Name="Service1Image" Type="nvarchar" MaxLength="200" />
+    <Property Name="Service1Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="Service2Image" Type="nvarchar" MaxLength="200" />
+    <Property Name="Service2Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="Service3Image" Type="nvarchar" MaxLength="200" />
+    <Property Name="Service3Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="SpotlightTitle" Type="nvarchar" MaxLength="200" />
+    <Property Name="SpotlightSubtitle" Type="nvarchar" MaxLength="500" />
+    <Property Name="SpotlightImages" Type="nvarchar(max)" />
+    <Property Name="FeatureImage" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="menu_id" />
+    </Key>
+    <Property Name="menu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tenmenu" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="link" Type="nvarchar" MaxLength="255" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="order" Type="int" />
+    <Property Name="datebegin" Type="datetime" />
+    <Property Name="icon" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Navbar">
+    <Key>
+      <PropertyRef Name="navbar_id" />
+    </Key>
+    <Property Name="navbar_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tenbutton" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="link" Type="nvarchar" MaxLength="255" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="order" Type="int" />
+    <Property Name="datebegin" Type="datetime" />
+    <Property Name="icon" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="news_id" />
+    </Key>
+    <Property Name="news_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ten" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="thumbnail" Type="nvarchar" MaxLength="255" />
+    <Property Name="link" Type="nvarchar" MaxLength="255" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="order" Type="int" />
+    <Property Name="datebegin" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="schedule_id" />
+    </Key>
+    <Property Name="schedule_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+    <Property Name="ngaytrongtuan" Type="int" />
+    <Property Name="catruc" Type="int" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="ngaydangki" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ScheduleDetail">
+    <Key>
+      <PropertyRef Name="scheduledetail_id" />
+    </Key>
+    <Property Name="scheduledetail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="catruc" Type="int" />
+    <Property Name="giobatdau" Type="time" Precision="7" />
+    <Property Name="gioketthuc" Type="time" Precision="7" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="order" Type="int" />
+  </EntityType>
+  <EntityType Name="SoftwareStorage">
+    <Key>
+      <PropertyRef Name="software_id" />
+    </Key>
+    <Property Name="software_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ten" Type="nvarchar" MaxLength="255" />
+    <Property Name="mota" Type="nvarchar" MaxLength="255" />
+    <Property Name="link" Type="nvarchar" MaxLength="255" />
+    <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+    <Property Name="ngaydang" Type="datetime" />
+  </EntityType>
+  <EntityType Name="SupportHistory">
+    <Key>
+      <PropertyRef Name="support_id" />
+    </Key>
+    <Property Name="support_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoten" Type="nvarchar" MaxLength="255" />
+    <Property Name="maKH" Type="nvarchar" MaxLength="255" />
+    <Property Name="tenmay" Type="nvarchar" MaxLength="255" />
+    <Property Name="loaihotro" Type="nvarchar" MaxLength="255" />
+    <Property Name="ngaygui" Type="datetime" />
+    <Property Name="trangthai" Type="nvarchar" MaxLength="255" />
+    <Property Name="meta" Type="nvarchar(max)" />
+    <Property Name="hide" Type="bit" />
+    <Property Name="mssv" Type="nvarchar" MaxLength="255" />
+    <Property Name="sdt" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Todo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Content" Type="nvarchar" MaxLength="255" />
+    <Property Name="IsCompleted" Type="bit" />
+    <Property Name="MSSV" Type="nvarchar" MaxLength="255" />
+    <Property Name="CreatAt" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Attendance_HumanResource">
+    <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Schedule_HumanResource">
+    <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SoftwareStorage_HumanResource">
+    <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+    <End Role="SoftwareStorage" Type="Self.SoftwareStorage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="SoftwareStorage">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupportHistory_HumanResource">
+    <End Role="HumanResource" Type="Self.HumanResource" Multiplicity="0..1" />
+    <End Role="SupportHistory" Type="Self.SupportHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HumanResource">
+        <PropertyRef Name="mssv" />
+      </Principal>
+      <Dependent Role="SupportHistory">
+        <PropertyRef Name="mssv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ITCenterModelStoreContainer">
+    <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Footer" EntityType="Self.Footer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Headers" EntityType="Self.Headers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HumanResource" EntityType="Self.HumanResource" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LandingContent" EntityType="Self.LandingContent" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Navbar" EntityType="Self.Navbar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ScheduleDetail" EntityType="Self.ScheduleDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SoftwareStorage" EntityType="Self.SoftwareStorage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SupportHistory" EntityType="Self.SupportHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Todo" EntityType="Self.Todo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Attendance_HumanResource" Association="Self.FK_Attendance_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResource" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Schedule_HumanResource" Association="Self.FK_Schedule_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResource" />
+      <End Role="Schedule" EntitySet="Schedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SoftwareStorage_HumanResource" Association="Self.FK_SoftwareStorage_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResource" />
+      <End Role="SoftwareStorage" EntitySet="SoftwareStorage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupportHistory_HumanResource" Association="Self.FK_SupportHistory_HumanResource">
+      <End Role="HumanResource" EntitySet="HumanResource" />
+      <End Role="SupportHistory" EntitySet="SupportHistory" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

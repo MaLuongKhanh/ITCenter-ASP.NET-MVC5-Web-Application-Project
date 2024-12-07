@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ITCenterModelStoreContainer" CdmEntityContainer="ITCenterEntities1">
+    <EntitySetMapping Name="Attendances">
+      <EntityTypeMapping TypeName="ITCenterModel.Attendance">
+        <MappingFragment StoreEntitySet="Attendance">
+          <ScalarProperty Name="mssv" ColumnName="mssv" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="catruc" ColumnName="catruc" />
+          <ScalarProperty Name="ngaytruc" ColumnName="ngaytruc" />
+          <ScalarProperty Name="diemdanh" ColumnName="diemdanh" />
+          <ScalarProperty Name="attendance_id" ColumnName="attendance_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Footers">
+      <EntityTypeMapping TypeName="ITCenterModel.Footer">
+        <MappingFragment StoreEntitySet="Footer">
+          <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+          <ScalarProperty Name="order" ColumnName="order" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="contentright" ColumnName="contentright" />
+          <ScalarProperty Name="contentleft" ColumnName="contentleft" />
+          <ScalarProperty Name="footer_id" ColumnName="footer_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HumanResources">
+      <EntityTypeMapping TypeName="ITCenterModel.HumanResource">
+        <MappingFragment StoreEntitySet="HumanResource">
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="githubURL" ColumnName="githubURL" />
+          <ScalarProperty Name="facebookURL" ColumnName="facebookURL" />
+          <ScalarProperty Name="ngaysinh" ColumnName="ngaysinh" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="hoten" ColumnName="hoten" />
+          <ScalarProperty Name="mssv" ColumnName="mssv" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="ITCenterModel.Menu">
+        <MappingFragment StoreEntitySet="Menu">
+          <ScalarProperty Name="icon" ColumnName="icon" />
+          <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+          <ScalarProperty Name="order" ColumnName="order" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="tenmenu" ColumnName="tenmenu" />
+          <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Navbars">
+      <EntityTypeMapping TypeName="ITCenterModel.Navbar">
+        <MappingFragment StoreEntitySet="Navbar">
+          <ScalarProperty Name="icon" ColumnName="icon" />
+          <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+          <ScalarProperty Name="order" ColumnName="order" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="tenbutton" ColumnName="tenbutton" />
+          <ScalarProperty Name="navbar_id" ColumnName="navbar_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="News">
+      <EntityTypeMapping TypeName="ITCenterModel.News">
+        <MappingFragment StoreEntitySet="News">
+          <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+          <ScalarProperty Name="order" ColumnName="order" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+          <ScalarProperty Name="content" ColumnName="content" />
+          <ScalarProperty Name="ten" ColumnName="ten" />
+          <ScalarProperty Name="news_id" ColumnName="news_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schedules">
+      <EntityTypeMapping TypeName="ITCenterModel.Schedule">
+        <MappingFragment StoreEntitySet="Schedule">
+          <ScalarProperty Name="ngaydangki" ColumnName="ngaydangki" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="catruc" ColumnName="catruc" />
+          <ScalarProperty Name="ngaytrongtuan" ColumnName="ngaytrongtuan" />
+          <ScalarProperty Name="mssv" ColumnName="mssv" />
+          <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ScheduleDetails">
+      <EntityTypeMapping TypeName="ITCenterModel.ScheduleDetail">
+        <MappingFragment StoreEntitySet="ScheduleDetail">
+          <ScalarProperty Name="order" ColumnName="order" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="gioketthuc" ColumnName="gioketthuc" />
+          <ScalarProperty Name="giobatdau" ColumnName="giobatdau" />
+          <ScalarProperty Name="catruc" ColumnName="catruc" />
+          <ScalarProperty Name="scheduledetail_id" ColumnName="scheduledetail_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SoftwareStorages">
+      <EntityTypeMapping TypeName="ITCenterModel.SoftwareStorage">
+        <MappingFragment StoreEntitySet="SoftwareStorage">
+          <ScalarProperty Name="ngaydang" ColumnName="ngaydang" />
+          <ScalarProperty Name="mssv" ColumnName="mssv" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="mota" ColumnName="mota" />
+          <ScalarProperty Name="ten" ColumnName="ten" />
+          <ScalarProperty Name="software_id" ColumnName="software_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="ITCenterModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="TokenExpiration" ColumnName="TokenExpiration" />
+          <ScalarProperty Name="PasswordResetToken" ColumnName="PasswordResetToken" />
+          <ScalarProperty Name="datebegin" ColumnName="datebegin" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="mssv" ColumnName="mssv" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupportHistories">
+      <EntityTypeMapping TypeName="ITCenterModel.SupportHistory">
+        <MappingFragment StoreEntitySet="SupportHistory">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="sdt" ColumnName="sdt" />
+          <ScalarProperty Name="mssv" ColumnName="mssv" />
+          <ScalarProperty Name="hide" ColumnName="hide" />
+          <ScalarProperty Name="meta" ColumnName="meta" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="ngaygui" ColumnName="ngaygui" />
+          <ScalarProperty Name="loaihotro" ColumnName="loaihotro" />
+          <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+          <ScalarProperty Name="maKH" ColumnName="maKH" />
+          <ScalarProperty Name="hoten" ColumnName="hoten" />
+          <ScalarProperty Name="support_id" ColumnName="support_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Todoes">
+      <EntityTypeMapping TypeName="ITCenterModel.Todo">
+        <MappingFragment StoreEntitySet="Todo">
+          <ScalarProperty Name="CreatAt" ColumnName="CreatAt" />
+          <ScalarProperty Name="MSSV" ColumnName="MSSV" />
+          <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LandingContents">
+      <EntityTypeMapping TypeName="ITCenterModel.LandingContent">
+        <MappingFragment StoreEntitySet="LandingContent">
+          <ScalarProperty Name="FeatureImage" ColumnName="FeatureImage" />
+          <ScalarProperty Name="SpotlightImages" ColumnName="SpotlightImages" />
+          <ScalarProperty Name="SpotlightSubtitle" ColumnName="SpotlightSubtitle" />
+          <ScalarProperty Name="SpotlightTitle" ColumnName="SpotlightTitle" />
+          <ScalarProperty Name="Service3Title" ColumnName="Service3Title" />
+          <ScalarProperty Name="Service3Image" ColumnName="Service3Image" />
+          <ScalarProperty Name="Service2Title" ColumnName="Service2Title" />
+          <ScalarProperty Name="Service2Image" ColumnName="Service2Image" />
+          <ScalarProperty Name="Service1Title" ColumnName="Service1Title" />
+          <ScalarProperty Name="Service1Image" ColumnName="Service1Image" />
+          <ScalarProperty Name="ServicesTitle" ColumnName="ServicesTitle" />
+          <ScalarProperty Name="AboutContent" ColumnName="AboutContent" />
+          <ScalarProperty Name="AboutTitle" ColumnName="AboutTitle" />
+          <ScalarProperty Name="BannerImage" ColumnName="BannerImage" />
+          <ScalarProperty Name="HeaderBackground" ColumnName="HeaderBackground" />
+          <ScalarProperty Name="HeaderSubtitle" ColumnName="HeaderSubtitle" />
+          <ScalarProperty Name="HeaderTitle" ColumnName="HeaderTitle" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Headers">
+      <EntityTypeMapping TypeName="ITCenterModel.Header">
+        <MappingFragment StoreEntitySet="Headers">
+          <ScalarProperty Name="favicon" ColumnName="favicon" />
+          <ScalarProperty Name="logo" ColumnName="logo" />
+          <ScalarProperty Name="websiteName" ColumnName="websiteName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
